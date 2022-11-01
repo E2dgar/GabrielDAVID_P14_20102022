@@ -1,24 +1,17 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Datatable } from './lib/Datatable';
+
 
 function App() {
+  const headers = [
+    'First name', 'Last name', 'Start Date', 'Department', 'Date of Birth', 'Street', 'City', 'State', 'Zip Code'
+  ]
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Datatable headers={headers}/>
     </div>
   );
 }
