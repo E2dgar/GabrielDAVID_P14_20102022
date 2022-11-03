@@ -1,11 +1,15 @@
-type Header = {
-  label: string;
-}
-
-export const Header = ({label}: Header) => {
-  
+export const Header = ({ headers }: { headers: object[] }) => {
     return (
-           <th>{label}</th>
-         
+        <thead data-testid="datatable-headers">
+            <tr>
+                {headers.map((header: object) => (
+                    <th
+                        key={`header-${Object.keys(header)}`}
+                        data-column={Object.keys(header)}>
+                        {Object.values(header)}
+                    </th>
+                ))}
+            </tr>
+        </thead>
     );
 };

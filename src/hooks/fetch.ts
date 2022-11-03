@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
 export type TApiResponse = {
-    data: any[];
+    data: object[];
     error: Boolean;
     isLoading: Boolean;
 };
 
-const useFetch = (fetchFunction: Promise<any>): TApiResponse => {
+const useFetch = (fetchFunction: Promise<any>) => {
     const [data, setData] = useState<object[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);

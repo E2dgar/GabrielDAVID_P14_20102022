@@ -1,3 +1,7 @@
-export const ROUTES = {
-  API: '/__mocked/data.json'
+type RoutesType = {
+    [key: string]: string;
+};
+
+export const ROUTES: RoutesType = {
+    API: '/__mocked/data.json'
 };

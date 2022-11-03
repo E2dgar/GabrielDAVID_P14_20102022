@@ -1,41 +1,34 @@
 import { FC, MouseEvent } from 'react';
 import { useFetch, TApiResponse } from '../../hooks/fetch';
 import { get } from '../../api/http';
-import { ROUTES } from '../../constants/routes';
 import { Header } from '../Header';
 import { Row } from '../Row';
 import './index.css';
+import { Select, SelectOption } from '../Select';
 
-type DatatableProps = {
-    headers: string[];
+type DatatableTypes = {
+    headers: object[];
+    employees: TApiResponse;
+    paginate: boolean;
+    options: SelectOption[] | null;
 };
 
-export const Datatable = ({ headers }: DatatableProps) => {
-    const employees: TApiResponse = useFetch(get(ROUTES.API));
-
-    if (employees.error) {
-        return <p>ERROR</p>;
-    }
-    if (employees.isLoading) {
-        return <p>ISLOADING</p>;
-    }
+export const Datatable = ({
+    headers,
+    employees,
+    paginate,
+    options
+}: DatatableTypes) => {
     const data = employees.data;
-
-    // const handleHeaderClick = (event: MouseEvent<HTMLTableCellElement>, header: string) => {
-    //   event.preventDefault()
-    //      console.log(header)
-    // }
 
     return (
         <div className="table-container">
+            <div className="select-search-bar">
+                {paginate && <Select options={options} />}
+            </div>
+
             <table data-testid="datatable" className="datatable">
-                <thead>
-                    <tr>
-                        {headers.map((header, index) => (
-                            <Header key={`header-${index}`} label={header} />
-                        ))}
-                    </tr>
-                </thead>
+                <Header headers={headers} />
 
                 <tbody>
                     {data.map((employee, index) => (
@@ -43,6 +36,8 @@ export const Datatable = ({ headers }: DatatableProps) => {
                     ))}
                 </tbody>
             </table>
+
+            {paginate && <p>Pagination</p>}
         </div>
     );
 };
