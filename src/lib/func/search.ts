@@ -1,4 +1,10 @@
-export const searchingData = (term: string, data: Object[]) => {
+import { showEntries } from './select';
+
+export const searchingData: any = (
+    term: string,
+    data: object[],
+    entries: number
+) => {
     const searchedTerms = term.split(' ');
     let results = data;
 
@@ -12,7 +18,6 @@ export const searchingData = (term: string, data: Object[]) => {
      * @returns
      */
     const objectToStringLowerCase = (object: Object) => {
-        console.log('str', JSON.stringify(object).toLowerCase());
         return JSON.stringify(object).toLowerCase();
     };
 
@@ -23,6 +28,8 @@ export const searchingData = (term: string, data: Object[]) => {
             )
         );
     }
+
+    results = showEntries(entries, results);
 
     return results;
 };

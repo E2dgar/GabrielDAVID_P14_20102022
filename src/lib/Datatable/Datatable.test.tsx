@@ -23,7 +23,7 @@ describe('Datatable', () => {
             { lastName: 'Last name' }
         ];
 
-        const employees = { data: [], isLoading: false, error: false };
+        const employees = { data: [[]], isLoading: false, error: false };
 
         const options = [
             { value: 10, text: '10' },

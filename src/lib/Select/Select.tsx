@@ -8,13 +8,15 @@ export interface SelectOption {
 
 export type SelectType = {
     options: SelectOption[] | null;
+    setEntriesPerPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export const Select = ({ options }: SelectType) => {
+export const Select = ({ options, setEntriesPerPage }: SelectType) => {
     const [selected, setSelected] = useState(options?.[0].value.toString());
 
     const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
         setSelected(e.currentTarget.value);
+        setEntriesPerPage(parseInt(e.currentTarget.value));
     };
 
     return (
