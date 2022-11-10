@@ -7,10 +7,12 @@ import './index.css';
 import { Select, SelectOption } from '../Select';
 import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
+import { sort } from '../func/sort';
+import { debug } from 'console';
 
 type DatatableTypes = {
-    headers: object[];
-    employees: TApiResponse;
+    headers: any[];
+    employees: any[];
     paginate: boolean;
     options: SelectOption[] | null;
 };
@@ -21,42 +23,64 @@ export const Datatable = ({
     paginate,
     options
 }: DatatableTypes) => {
-    const [data, setData] = useState<object[]>([]);
-    const [dataByEntries, setDataByEntries] = useState<object[][]>([[]]);
-    const [dataSearched, setDataSearched] = useState<object[][]>([[]]);
+    const [data, setData] = useState<any[][]>([]);
+    // const [dataByEntries, setDataByEntries] = useState<object[][]>([[]]);
+    // const [dataSearched, setDataSearched] = useState<object[][]>([[]]);
+    const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
+    const [sortBy, setSortBy] = useState<string>('');
+
+    // const data = [employees];
 
     useEffect(() => {
-        setData(employees.data);
-        setDataByEntries(showEntries(entriesPerPage, employees.data));
-
-        <RenderTable />;
+        // setData(employees);
+        // setDataByEntries(showEntries(entriesPerPage, data));
+        setData(showEntries(entriesPerPage, employees));
+        // <RenderTable />;
     }, [employees]);
 
-    useEffect(() => {
-        <RenderTable />;
-    }, [dataSearched]);
+    // useEffect(() => {
+    //     setDataByEntries(
+    //         showEntries(
+    //             entriesPerPage,
+    //             dataSearched[0].length > 0 ? dataSearched : data
+    //         )
+    //     );
+    // }, [entriesPerPage]);
 
-    useEffect(() => {
-        showEntries(
-            entriesPerPage,
-            dataSearched.length > 0 ? dataSearched : data
-        );
-    }, [entriesPerPage]);
+    // useEffect(() => {
+    //     <RenderTable />;
+    // }, [dataByEntries]);
 
     const RenderTable = () => {
-        if (dataSearched?.[0]?.length > 0) {
-            return (
-                <>
-                    {dataSearched[0].map((employee: object, index: number) => (
-                        <Row key={`row-${index}`} data={employee} />
-                    ))}
-                </>
-            );
+        let results: any[][] =
+            searchedTerms !== ''
+                ? searchingData(searchedTerms, data.flat(), entriesPerPage)
+                : data;
+
+        if (sortBy !== '') {
+            results = showEntries(entriesPerPage, sort(sortBy, results.flat()));
         }
+
+        // if (dataSearched?.[0]?.length > 0) {
+        //     return (
+        //         <>
+        //             {dataSearched[0].map((employee: object, index: number) => (
+        //                 <Row key={`row-${index}`} data={employee} />
+        //             ))}
+        //         </>
+        //     );
+        // }
+        // return (
+        //     <>
+        //         {dataByEntries[0].map((employee, index) => (
+        //             <Row key={`row-${index}`} data={employee} />
+        //         ))}
+        //     </>
+        // );
         return (
             <>
-                {dataByEntries[0].map((employee, index) => (
+                {results[0].map((employee, index) => (
                     <Row key={`row-${index}`} data={employee} />
                 ))}
             </>
@@ -66,9 +90,22 @@ export const Datatable = ({
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
     ) => {
-        setDataSearched(
-            searchingData(e.currentTarget.value, data, entriesPerPage)
-        );
+        setSearchedTerms(e.currentTarget.value);
+        // setDataSearched(
+        //     searchingData(e.currentTarget.value, data, entriesPerPage)
+        // );
+        <RenderTable />;
+    };
+
+    const handleSort = (e: React.MouseEvent) => {
+        const headerData = e.currentTarget.getAttribute('data-column');
+        if (headerData) {
+            setSortBy(headerData);
+            // setDataByEntries(
+            //     showEntries(entriesPerPage, sort(headerData, data))
+            // );
+        }
+        <RenderTable />;
     };
 
     return (
@@ -85,9 +122,9 @@ export const Datatable = ({
             </div>
 
             <table data-testid="datatable" className="datatable">
-                <Header headers={headers} />
+                <Header headers={headers} handleClick={handleSort} />
 
-                <tbody>{dataByEntries[0] && <RenderTable />}</tbody>
+                <tbody>{data[0] && <RenderTable />}</tbody>
             </table>
 
             {paginate && <p>Pagination</p>}

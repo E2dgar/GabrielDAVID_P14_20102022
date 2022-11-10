@@ -26,11 +26,17 @@ function App() {
         { value: 100, text: '100' }
     ];
 
+    if (employees.isLoading) {
+        return <p>Loading</p>;
+    }
+    if (employees.error) {
+        return <p>Error</p>;
+    }
     return (
         <div className="App">
             <Datatable
                 headers={headers}
-                employees={employees}
+                employees={employees.data}
                 paginate={true}
                 options={options}
             />

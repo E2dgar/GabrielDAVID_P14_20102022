@@ -8,7 +8,7 @@ describe('Headers', () => {
             { lastName: 'Last name' }
         ];
 
-        render(<Header headers={headers} />);
+        render(<Header headers={headers} handleClick={() => {}} />);
 
         const headersTable = screen.getByTestId('datatable-headers');
         expect(headersTable).toBeTruthy();

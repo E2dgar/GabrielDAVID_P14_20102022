@@ -35,7 +35,7 @@ describe('Datatable', () => {
         render(
             <Datatable
                 headers={headers}
-                employees={employees}
+                employees={employees.data}
                 paginate={true}
                 options={options}
             />

@@ -1,4 +1,4 @@
-export const showEntries = (number: number, data: object[]) => {
+export const showEntries = (number: number, data: any[]) => {
     const pagesTable = [];
     // const numberOfPages = Math.ceil(data.length / number);
 
