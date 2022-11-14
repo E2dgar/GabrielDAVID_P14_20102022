@@ -9,6 +9,7 @@ import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
 import { sort } from '../func/sort';
 import { debug } from 'console';
+import { Pagination, PaginationT } from '../Pagination';
 
 type DatatableTypes = {
     headers: any[];
@@ -17,6 +18,8 @@ type DatatableTypes = {
     options: SelectOption[] | null;
 };
 
+export type DataTableList = any[][];
+
 export const Datatable = ({
     headers,
     employees,
@@ -24,33 +27,26 @@ export const Datatable = ({
     options
 }: DatatableTypes) => {
     const [data, setData] = useState<any[][]>([]);
-    // const [dataByEntries, setDataByEntries] = useState<object[][]>([[]]);
-    // const [dataSearched, setDataSearched] = useState<object[][]>([[]]);
+    const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [sortBy, setSortBy] = useState<string>('');
-
-    // const data = [employees];
+    const [paginationData, setPaginationData] = useState<any[]>([]);
 
     useEffect(() => {
-        // setData(employees);
-        // setDataByEntries(showEntries(entriesPerPage, data));
         setData(showEntries(entriesPerPage, employees));
-        // <RenderTable />;
     }, [employees]);
 
-    // useEffect(() => {
-    //     setDataByEntries(
-    //         showEntries(
-    //             entriesPerPage,
-    //             dataSearched[0].length > 0 ? dataSearched : data
-    //         )
-    //     );
-    // }, [entriesPerPage]);
+    useEffect(() => {
+        <RenderTable />;
+    }, [entriesPerPage, searchedTerms, sortBy, paginationData, pageIndex]);
 
-    // useEffect(() => {
-    //     <RenderTable />;
-    // }, [dataByEntries]);
+    // { results }: React.ComponentProps<typeof Pagination>
+    // const Paginate = () => {
+    //     return (
+    //     //    78
+    //     );
+    // };
 
     const RenderTable = () => {
         let results: any[][] =
@@ -62,25 +58,15 @@ export const Datatable = ({
             results = showEntries(entriesPerPage, sort(sortBy, results.flat()));
         }
 
-        // if (dataSearched?.[0]?.length > 0) {
-        //     return (
-        //         <>
-        //             {dataSearched[0].map((employee: object, index: number) => (
-        //                 <Row key={`row-${index}`} data={employee} />
-        //             ))}
-        //         </>
-        //     );
-        // }
-        // return (
-        //     <>
-        //         {dataByEntries[0].map((employee, index) => (
-        //             <Row key={`row-${index}`} data={employee} />
-        //         ))}
-        //     </>
-        // );
+        useEffect(() => {
+            if (paginate) {
+                setPaginationData(results);
+            }
+        }, [results]);
+
         return (
             <>
-                {results[0].map((employee, index) => (
+                {results[pageIndex].map((employee, index) => (
                     <Row key={`row-${index}`} data={employee} />
                 ))}
             </>
@@ -94,18 +80,23 @@ export const Datatable = ({
         // setDataSearched(
         //     searchingData(e.currentTarget.value, data, entriesPerPage)
         // );
-        <RenderTable />;
+        // <RenderTable />;
     };
 
     const handleSort = (e: React.MouseEvent) => {
         const headerData = e.currentTarget.getAttribute('data-column');
         if (headerData) {
             setSortBy(headerData);
-            // setDataByEntries(
-            //     showEntries(entriesPerPage, sort(headerData, data))
-            // );
         }
-        <RenderTable />;
+        // <RenderTable />;
+    };
+
+    const paginationNavigate = (e: React.MouseEvent) => {
+        const index = e.currentTarget.getAttribute('data-index');
+        if (index) {
+            console.log('index', parseInt(index));
+            setPageIndex(parseInt(index));
+        }
     };
 
     return (
@@ -127,7 +118,10 @@ export const Datatable = ({
                 <tbody>{data[0] && <RenderTable />}</tbody>
             </table>
 
-            {paginate && <p>Pagination</p>}
+            <Pagination
+                results={paginationData}
+                navigate={paginationNavigate}
+            />
         </div>
     );
 };
