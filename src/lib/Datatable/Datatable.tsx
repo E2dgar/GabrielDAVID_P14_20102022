@@ -9,6 +9,7 @@ import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
 import { sort, sortType } from '../func/sort';
 import { Pagination, PaginationT } from '../Pagination';
+import { Breadcrumb } from '../Breadcrumb';
 
 type DatatableTypes = {
     headers: any[];
@@ -212,10 +213,17 @@ export const Datatable = ({
                 <tbody>{results[0] && renderTable()}</tbody>
             </table>
 
-            <Pagination
-                results={paginationData}
-                navigate={paginationNavigate}
-            />
+            <div>
+                <Breadcrumb
+                    resultsLength={results.flat().length}
+                    currentIndex={pageIndex}
+                    entriesPerPage={entriesPerPage}
+                />
+                <Pagination
+                    results={paginationData}
+                    navigate={paginationNavigate}
+                />
+            </div>
         </div>
     );
 };
