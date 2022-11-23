@@ -1,10 +1,17 @@
 type DataT = { [key: string]: any };
 
-export const Row = ({ data }: DataT) => {
+type RowT = {
+    data: any;
+    headers: DataT[];
+};
+
+export const Row = ({ data, headers }: RowT) => {
     return (
         <tr>
-            {Object.keys(data).map((key) => (
-                <td key={key}>{data[key]}</td>
+            {headers.map((header: any) => (
+                <td key={Object.keys(header).toString()}>
+                    {data[Object.keys(header).toString()]}
+                </td>
             ))}
         </tr>
     );

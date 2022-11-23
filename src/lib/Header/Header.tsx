@@ -8,10 +8,11 @@ export const Header = ({
     return (
         <thead data-testid="datatable-headers">
             <tr>
-                {headers.map((header: object) => (
+                {headers.map((header: any) => (
                     <th
                         key={`header-${Object.keys(header)}`}
                         data-column={Object.keys(header)}
+                        data-sort={'none'}
                         onClick={handleClick}>
                         {Object.values(header)}
                     </th>
