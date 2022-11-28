@@ -9,8 +9,11 @@ export const Breadcrumb = ({
     currentIndex,
     entriesPerPage
 }: BreadcrumbT) => {
-    const to = entriesPerPage * (currentIndex + 1);
-    const from = to - entriesPerPage + 1;
+    const to =
+        entriesPerPage * (currentIndex + 1) > resultsLength
+            ? resultsLength
+            : entriesPerPage * (currentIndex + 1);
+    const from = to - entriesPerPage < 0 ? 1 : to - entriesPerPage + 1;
 
     return (
         <p>

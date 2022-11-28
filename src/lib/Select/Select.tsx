@@ -50,6 +50,8 @@ export const Select = ({
             showEntries(parseInt(e.currentTarget.value), results.flat())
         );
         setPageIndex(newPageIndex);
+        console.log('index', newPageIndex);
+        setEntriesPerPage(entriesNumber);
     };
 
     return (
