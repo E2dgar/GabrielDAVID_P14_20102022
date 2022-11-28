@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState, useRef, RefObject } from 'react';
 import { Header } from '../Header';
 import { Row } from '../Row';
 import { Search } from '../Search';
@@ -6,7 +6,6 @@ import './index.css';
 import { Select, SelectOption } from '../Select';
 import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
-import { sort, sortType } from '../func/sort';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
 
@@ -29,41 +28,16 @@ export const Datatable = ({
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
-    const [paginationData, setPaginationData] = useState<any[]>([]);
 
     useEffect(() => {
         setResults(showEntries(entriesPerPage, employees));
     }, []);
 
-    /**Un seul useEffect */
-    // useEffect(() => {
-    //     if (searchedTerms !== '') {
-    //         setResults(
-    //             showEntries(entriesPerPage, searchingData(searchedTerms, employees))
-    //         );
-
-    //     } else {
-    //         setResults(showEntries(entriesPerPage, results.flat()));
-    //     }
-    // })
     useEffect(() => {
         setResults(
             showEntries(entriesPerPage, searchingData(searchedTerms, employees))
         );
     }, [searchedTerms]);
-
-    // useEffect(() => {
-    //     if (results.length > 0) {
-    //         console.log('entries has changed ?', entriesPerPage);
-    //         setResults(showEntries(entriesPerPage, results.flat()));
-    //     }
-    // }, [entriesPerPage]);
-
-    // useEffect(() => {
-    //     if (paginate) {
-    //         setPaginationData(results);
-    //     }
-    // }, [results]);
 
     const RenderTable = () => {
         return (
@@ -85,29 +59,30 @@ export const Datatable = ({
         setSearchedTerms(e.currentTarget.value);
     };
 
-    const handleSort = (e: React.MouseEvent<HTMLTableCellElement>) => {
-        const header = e.currentTarget.getAttribute('data-column');
-        const headerSortType = e.currentTarget.getAttribute('data-sort');
-        sortType(e.currentTarget);
-        if (header) {
-            //Fonctionnement base plugin
-            if (headerSortType === 'DESC') {
-                setResults(
-                    showEntries(
-                        entriesPerPage,
-                        searchingData(searchedTerms, employees)
-                    )
-                );
-            } else {
-                setResults(
-                    showEntries(
-                        entriesPerPage,
-                        sort(e.currentTarget, results.flat())
-                    )
-                );
-            }
-        }
-    };
+    // const handleSort = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    //     console.log(headerRefs);
+    //     const header = e.currentTarget.getAttribute('data-column');
+    //     const headerSortType = e.currentTarget.getAttribute('data-sort');
+    //     sortType(e.currentTarget);
+    //     if (header) {
+    //         //Fonctionnement base plugin
+    //         if (headerSortType === 'DESC') {
+    //             setResults(
+    //                 showEntries(
+    //                     entriesPerPage,
+    //                     searchingData(searchedTerms, employees)
+    //                 )
+    //             );
+    //         } else {
+    //             setResults(
+    //                 showEntries(
+    //                     entriesPerPage,
+    //                     sort(e.currentTarget, results.flat())
+    //                 )
+    //             );
+    //         }
+    //     }
+    // };
 
     const paginationNavigate = (e: React.MouseEvent) => {
         const indexAttribute = e.currentTarget.getAttribute('data-index');
@@ -137,7 +112,14 @@ export const Datatable = ({
             </div>
 
             <table data-testid="datatable" className="datatable">
-                <Header headers={headers} handleClick={handleSort} />
+                <Header
+                    headers={headers}
+                    // handleClick={handleSort}
+                    results={results}
+                    setResults={setResults}
+                    entriesPerPage={entriesPerPage}
+                    // refs={headerRefs}
+                />
 
                 <tbody>{results[0] && <RenderTable />}</tbody>
             </table>

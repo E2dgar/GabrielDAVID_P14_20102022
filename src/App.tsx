@@ -6,16 +6,27 @@ import { ROUTES } from './constants/routes';
 
 function App() {
     /**TODO changer modélisation headers */
+    // const headers = [
+    //     { firstName: 'First name' },
+    //     { lastName: 'Last name' },
+    //     { startDate: 'Start Date' },
+    //     { department: 'Department' },
+    //     { dateOfBirth: 'Date of birth' },
+    //     { street: 'Street' },
+    //     { city: 'City' },
+    //     { state: 'State' },
+    //     { zipCode: 'Zip Code' }
+    // ];
     const headers = [
-        { firstName: 'First name' },
-        { lastName: 'Last name' },
-        { startDate: 'Start Date' },
-        { department: 'Department' },
-        { dateOfBirth: 'Date of birth' },
-        { street: 'Street' },
-        { city: 'City' },
-        { state: 'State' },
-        { zipCode: 'Zip Code' }
+        { key: 'firstName', label: 'First name' },
+        { key: 'lastName', label: 'Last name' },
+        { key: 'startDate', label: 'Start Date' },
+        { key: 'department', label: 'Department' },
+        { key: 'dateOfBirth', label: 'Date of birth' },
+        { key: 'street', label: 'Street' },
+        { key: 'city', label: 'City' },
+        { key: 'state', label: 'State' },
+        { key: 'zipCode', label: 'Zip Code' }
     ];
 
     const employees = useFetch(get(ROUTES.API));
