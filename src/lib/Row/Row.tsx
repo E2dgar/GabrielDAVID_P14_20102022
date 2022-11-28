@@ -9,8 +9,8 @@ export const Row = ({ data, headers }: RowT) => {
     return (
         <tr>
             {headers.map((header: any) => (
-                <td key={Object.keys(header).toString()}>
-                    {data[Object.keys(header).toString()]}
+                <td key={Object.keys(header)[0].toString()}>
+                    {data[Object.keys(header)[0].toString()]}
                 </td>
             ))}
         </tr>

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { TApiResponse } from '../../hooks/fetch';
+import React, { useEffect, useState, createRef } from 'react';
 import { Header } from '../Header';
 import { Row } from '../Row';
 import { Search } from '../Search';
@@ -8,7 +7,7 @@ import { Select, SelectOption } from '../Select';
 import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
 import { sort, sortType } from '../func/sort';
-import { Pagination, PaginationT } from '../Pagination';
+import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
 
 type DatatableTypes = {
@@ -26,54 +25,47 @@ export const Datatable = ({
     paginate,
     options
 }: DatatableTypes) => {
-    const [data, setData] = useState<any[][]>([]);
     const [results, setResults] = useState<any[][]>([]);
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
-    const [sortBy, setSortBy] = useState<HTMLTableCellElement | null>(null);
     const [paginationData, setPaginationData] = useState<any[]>([]);
 
     useEffect(() => {
-        // setData(showEntries(entriesPerPage, employees));
         setResults(showEntries(entriesPerPage, employees));
-        console.log('tet');
     }, []);
 
+    /**Un seul useEffect */
+    // useEffect(() => {
+    //     if (searchedTerms !== '') {
+    //         setResults(
+    //             showEntries(entriesPerPage, searchingData(searchedTerms, employees))
+    //         );
+
+    //     } else {
+    //         setResults(showEntries(entriesPerPage, results.flat()));
+    //     }
+    // })
     useEffect(() => {
         setResults(
             showEntries(entriesPerPage, searchingData(searchedTerms, employees))
         );
     }, [searchedTerms]);
 
-    useEffect(() => {
-        if (results.length > 0) {
-            setResults(showEntries(entriesPerPage, results.flat()));
-        }
-        // Pourquoi entriesPerPage change au 1er render ,
-    }, [entriesPerPage]);
-
-    useEffect(() => {
-        if (paginate) {
-            setPaginationData(results);
-        }
-    }, [results]);
-
     // useEffect(() => {
-    //     if (sortBy) {
-    //         setResults(
-    //             showEntries(entriesPerPage, sort(sortBy, results.flat()))
-    //         );
+    //     if (results.length > 0) {
+    //         console.log('entries has changed ?', entriesPerPage);
+    //         setResults(showEntries(entriesPerPage, results.flat()));
     //     }
-    // }, [sortBy]);
+    // }, [entriesPerPage]);
 
     // useEffect(() => {
-    //     // console.log('res', results);
-    //     renderTable();
+    //     if (paginate) {
+    //         setPaginationData(results);
+    //     }
     // }, [results]);
 
-    const renderTable = () => {
-        // console.log('render');
+    const RenderTable = () => {
         return (
             <>
                 {results[pageIndex].map((employee, index) => (
@@ -87,66 +79,6 @@ export const Datatable = ({
         );
     };
 
-    // useEffect(() => {
-    //     setResults(showEntries(entriesPerPage, results));
-    // }, [entriesPerPage]);
-
-    // useEffect(() => {
-    //     // setResults(searchingData(searchedTerms, data.flat(), entriesPerPage));
-    //     let resultsToRender: any[][] =
-    //         searchedTerms !== ''
-    //             ? searchingData(searchedTerms, data.flat(), entriesPerPage)
-    //             : data;
-
-    //     if (sortBy) {
-    //         resultsToRender = showEntries(
-    //             entriesPerPage,
-    //             sort(sortBy, resultsToRender.flat())
-    //         );
-    //     }
-
-    //     setResults(resultsToRender);
-
-    //     if (paginate) {
-    //         setPaginationData(resultsToRender);
-    //     }
-    // }, [searchedTerms, entriesPerPage, sortBy]);
-    // useEffect(() => {
-    //     <RenderTable />;
-    // }, [entriesPerPage, searchedTerms, sortBy]);
-
-    // const RenderTable = (data: any[][]) => {
-    //     if(!data){
-    //         results = employees
-    //     }
-    //     let results: any[][] =
-    //         searchedTerms !== ''
-    //             ? searchingData(searchedTerms, data.flat(), entriesPerPage)
-    //             : data;
-
-    //     if (sortBy) {
-    //         results = showEntries(entriesPerPage, sort(sortBy, results.flat()));
-    //     }
-
-    //     // useEffect(() => {
-    //     // if (paginate) {
-    //     //     setPaginationData(results);
-    //     // }
-    //     // }, []);
-
-    //     return (
-    //         <>
-    //             {results[pageIndex].map((employee, index) => (
-    //                 <Row
-    //                     key={`row-${index}`}
-    //                     data={employee}
-    //                     headers={headers}
-    //                 />
-    //             ))}
-    //         </>
-    //     );
-    // };
-
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
     ) => {
@@ -158,7 +90,7 @@ export const Datatable = ({
         const headerSortType = e.currentTarget.getAttribute('data-sort');
         sortType(e.currentTarget);
         if (header) {
-            //Obligé de relancer searching, entries... ?
+            //Fonctionnement base plugin
             if (headerSortType === 'DESC') {
                 setResults(
                     showEntries(
@@ -182,10 +114,6 @@ export const Datatable = ({
 
         if (indexAttribute) {
             let index = parseInt(indexAttribute);
-            // if (index - 1 > results.length - 1) {
-            //     console.log('cur index', index);
-            //     index = results.length;
-            // }
             setPageIndex(index);
         }
     };
@@ -199,6 +127,8 @@ export const Datatable = ({
                         setEntriesPerPage={setEntriesPerPage}
                         setPageIndex={setPageIndex}
                         currentPageIndex={pageIndex}
+                        results={results}
+                        setResults={setResults}
                         resultsLength={results.flat().length}
                     />
                 )}
@@ -209,8 +139,7 @@ export const Datatable = ({
             <table data-testid="datatable" className="datatable">
                 <Header headers={headers} handleClick={handleSort} />
 
-                {/* <tbody>{data[0] && <RenderTable />}</tbody> */}
-                <tbody>{results[0] && renderTable()}</tbody>
+                <tbody>{results[0] && <RenderTable />}</tbody>
             </table>
 
             <div>
@@ -220,7 +149,8 @@ export const Datatable = ({
                     entriesPerPage={entriesPerPage}
                 />
                 <Pagination
-                    results={paginationData}
+                    // results={paginationData}
+                    results={results}
                     navigate={paginationNavigate}
                 />
             </div>
