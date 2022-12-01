@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef, RefObject } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from '../Header';
-import { Row } from '../Row';
 import { Search } from '../Search';
 import './index.css';
 import { Select, SelectOption } from '../Select';
@@ -8,8 +7,9 @@ import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
+import { TBody } from '../TBody';
 
-type DatatableTypes = {
+export type DatatableTypes = {
     headers: any[];
     employees: any[];
     paginate: boolean;
@@ -37,21 +37,8 @@ export const Datatable = ({
         setResults(
             showEntries(entriesPerPage, searchingData(searchedTerms, employees))
         );
+        console.log('res', results);
     }, [searchedTerms]);
-
-    const RenderTable = () => {
-        return (
-            <>
-                {results[pageIndex].map((employee, index) => (
-                    <Row
-                        key={`row-${index}`}
-                        data={employee}
-                        headers={headers}
-                    />
-                ))}
-            </>
-        );
-    };
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
@@ -59,37 +46,11 @@ export const Datatable = ({
         setSearchedTerms(e.currentTarget.value);
     };
 
-    // const handleSort = (e: React.MouseEvent<HTMLTableCellElement>) => {
-    //     console.log(headerRefs);
-    //     const header = e.currentTarget.getAttribute('data-column');
-    //     const headerSortType = e.currentTarget.getAttribute('data-sort');
-    //     sortType(e.currentTarget);
-    //     if (header) {
-    //         //Fonctionnement base plugin
-    //         if (headerSortType === 'DESC') {
-    //             setResults(
-    //                 showEntries(
-    //                     entriesPerPage,
-    //                     searchingData(searchedTerms, employees)
-    //                 )
-    //             );
-    //         } else {
-    //             setResults(
-    //                 showEntries(
-    //                     entriesPerPage,
-    //                     sort(e.currentTarget, results.flat())
-    //                 )
-    //             );
-    //         }
-    //     }
-    // };
-
     const paginationNavigate = (e: React.MouseEvent) => {
         const indexAttribute = e.currentTarget.getAttribute('data-index');
 
         if (indexAttribute) {
-            let index = parseInt(indexAttribute);
-            setPageIndex(index);
+            setPageIndex(parseInt(indexAttribute));
         }
     };
 
@@ -114,14 +75,18 @@ export const Datatable = ({
             <table data-testid="datatable" className="datatable">
                 <Header
                     headers={headers}
-                    // handleClick={handleSort}
                     results={results}
                     setResults={setResults}
                     entriesPerPage={entriesPerPage}
-                    // refs={headerRefs}
                 />
 
-                <tbody>{results[0] && <RenderTable />}</tbody>
+                {results[0] && (
+                    <TBody
+                        results={results}
+                        headers={headers}
+                        pageIndex={pageIndex}
+                    />
+                )}
             </table>
 
             <div>
@@ -130,11 +95,7 @@ export const Datatable = ({
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />
-                <Pagination
-                    // results={paginationData}
-                    results={results}
-                    navigate={paginationNavigate}
-                />
+                <Pagination results={results} navigate={paginationNavigate} />
             </div>
         </div>
     );

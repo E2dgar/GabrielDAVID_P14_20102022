@@ -8,15 +8,12 @@ export const Header = ({
     results,
     setResults,
     entriesPerPage
-}: // handleClick
-// refs
+}: 
 {
     headers: any[];
     results: any[][];
     setResults: React.Dispatch<React.SetStateAction<any[][]>>;
     entriesPerPage: number;
-    // handleClick: any;
-    // refs: any;
 }) => {
     const refs = useRef(new Array(headers.length));
 
@@ -40,12 +37,9 @@ export const Header = ({
                 )
             );
             newSortBy.setAttribute('data-sort', 'ASC');
-            console.log('sortOrder', refs.current[i].getAttribute('data-sort'));
         } else {
-            console.log(1);
             newSortBy.setAttribute('data-sort', 'DESC');
             setResults(showEntries(entriesPerPage, results.flat().reverse()));
-            console.log('sortOrder', refs.current[i].getAttribute('data-sort'));
         }
     };
 
@@ -54,10 +48,11 @@ export const Header = ({
             <tr>
                 {headers.map((header: any, i: number) => (
                     <th
-                        key={`header-${header.key}`}
+                        key={`header-${i}`}
                         ref={(elt) => (refs.current[i] = elt)}
                         data-column={header.key}
-                        onClick={() => handleClick(i)}>
+                        onClick={() => handleClick(i)}
+                        data-testid="header">
                         {header.label}
                     </th>
                 ))}

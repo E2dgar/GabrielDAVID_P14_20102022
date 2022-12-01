@@ -5,7 +5,10 @@ type ButtonT = {
 
 export const Button = ({ index, navigate }: ButtonT) => {
     return (
-        <button onClick={navigate} data-index={index}>
+        <button
+            onClick={navigate}
+            data-index={index}
+            data-testid="pagination-button">
             {index + 1}
         </button>
     );

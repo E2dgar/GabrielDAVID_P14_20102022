@@ -7,9 +7,11 @@ type RowT = {
 
 export const Row = ({ data, headers }: RowT) => {
     return (
-        <tr>
-            {headers.map((header: any) => (
-                <td key={header.key}>{data[header.key]}</td>
+        <tr data-testid="row">
+            {headers.map((header: any, i: number) => (
+                <td key={`row-key-${i}`} data-testid={`row-${i}-td`}>
+                    {data[header.key]}
+                </td>
             ))}
         </tr>
     );

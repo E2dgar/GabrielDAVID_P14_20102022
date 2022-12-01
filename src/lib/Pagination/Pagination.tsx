@@ -7,7 +7,7 @@ export type PaginationT = {
 
 export const Pagination = ({ results, navigate }: PaginationT) => {
     return (
-        <div>
+        <div data-testid="pagination">
             {results.map((_, index) => (
                 <Button key={index} index={index} navigate={navigate} />
             ))}

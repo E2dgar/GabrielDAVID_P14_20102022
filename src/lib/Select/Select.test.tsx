@@ -1,6 +1,5 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Datatable } from '../Datatable';
-import React from 'react';
 
 const headers = [
     { key: 'firstName', label: 'First name' },
@@ -44,7 +43,7 @@ const options = [
     { value: 50, text: '50' }
 ];
 
-describe('Headers', () => {
+describe('Select', () => {
     render(
         <Datatable
             headers={headers}
@@ -54,22 +53,30 @@ describe('Headers', () => {
         />
     );
 
-    const columns = screen.getAllByTestId('header');
+    const select: HTMLSelectElement = screen.getByTestId('select');
+    const buttons = screen.getAllByTestId('pagination-button');
+    const rows = screen.getAllByTestId('row');
 
-    test('has 2 columns', () => {
-        expect(columns.length).toBe(2);
+    test('has 3 options', () => {
+        const optionsElt = screen.getAllByTestId('select-option');
+        expect(optionsElt.length).toBe(3);
     });
 
-    test('a header have right data-column attr and right text content', () => {
-        expect(columns[0].getAttribute('data-column')).toBe('firstName');
-        expect(columns[0]).toHaveTextContent('First name');
+    test('has 10 entries by default', () => {
+        expect(select.value).toBe('10');
     });
-});
 
-describe('On one header click', () => {
-    const header = screen.getAllByTestId('header')[0];
-    fireEvent.click(header);
-    test("header have data-sort attr 'ASC'", () => {
-        expect(header).toHaveAttribute('data-sort', 'ASC');
+    test('right value is selected on change', () => {
+        fireEvent.change(select, { target: { value: '50' } });
+
+        expect(select.value).toBe('50');
+    });
+
+    test('Pagination has 3 button', () => {
+        expect(buttons.length).toBe(3);
+    });
+
+    test('Datatable has 10 rows', () => {
+        expect(rows.length).toBe(10);
     });
 });

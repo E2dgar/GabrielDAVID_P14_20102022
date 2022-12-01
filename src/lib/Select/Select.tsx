@@ -58,11 +58,13 @@ export const Select = ({
         <label>
             Show
             <select
+                data-testid="select"
                 className="entries-select"
                 value={selected}
                 onChange={handleChange}>
                 {options?.map((option) => (
                     <option
+                        data-testid="select-option"
                         key={`option-${option.value}`}
                         id={`option-${option.value}`}>
                         {option.text}

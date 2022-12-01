@@ -16,7 +16,7 @@ export const Breadcrumb = ({
     const from = to - entriesPerPage < 0 ? 1 : to - entriesPerPage + 1;
 
     return (
-        <p>
+        <p data-testid="location">
             Show {from} to {to} of {resultsLength} entries
         </p>
     );
