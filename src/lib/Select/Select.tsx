@@ -15,6 +15,7 @@ export type SelectType = {
     results: any[][];
     currentPageIndex: number;
     resultsLength: number;
+    paginate: boolean;
 };
 
 export const Select = ({
@@ -24,7 +25,8 @@ export const Select = ({
     setResults,
     results,
     currentPageIndex,
-    resultsLength
+    resultsLength,
+    paginate
 }: SelectType) => {
     const [selected, setSelected] = useState(options?.[0].value.toString());
 
@@ -47,7 +49,11 @@ export const Select = ({
 
         setSelected(e.currentTarget.value);
         setResults(
-            showEntries(parseInt(e.currentTarget.value), results.flat())
+            showEntries(
+                parseInt(e.currentTarget.value),
+                results.flat(),
+                paginate
+            )
         );
         setPageIndex(newPageIndex);
         console.log('index', newPageIndex);

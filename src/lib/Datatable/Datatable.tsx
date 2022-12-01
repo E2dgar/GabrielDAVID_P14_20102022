@@ -12,7 +12,8 @@ import { TBody } from '../TBody';
 export type DatatableTypes = {
     headers: any[];
     employees: any[];
-    paginate: boolean;
+    paginate?: boolean;
+    scrollH?: number;
     options: SelectOption[] | null;
 };
 
@@ -22,22 +23,27 @@ export const Datatable = ({
     headers,
     employees,
     paginate,
-    options
+    options,
+    scrollH
 }: DatatableTypes) => {
     const [results, setResults] = useState<any[][]>([]);
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
+    const [sortBy, setSortBy] = useState<string>('');
 
     useEffect(() => {
-        setResults(showEntries(entriesPerPage, employees));
+        setResults(showEntries(entriesPerPage, employees, !!paginate));
     }, []);
 
     useEffect(() => {
         setResults(
-            showEntries(entriesPerPage, searchingData(searchedTerms, employees))
+            showEntries(
+                entriesPerPage,
+                searchingData(searchedTerms, employees),
+                !!paginate
+            )
         );
-        console.log('res', results);
     }, [searchedTerms]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
@@ -66,6 +72,7 @@ export const Datatable = ({
                         results={results}
                         setResults={setResults}
                         resultsLength={results.flat().length}
+                        paginate={true}
                     />
                 )}
 
@@ -77,7 +84,10 @@ export const Datatable = ({
                     headers={headers}
                     results={results}
                     setResults={setResults}
+                    setSortBy={setSortBy}
                     entriesPerPage={entriesPerPage}
+                    paginate={!!paginate}
+                    scrollH={scrollH}
                 />
 
                 {results[0] && (
@@ -85,6 +95,8 @@ export const Datatable = ({
                         results={results}
                         headers={headers}
                         pageIndex={pageIndex}
+                        scrollH={scrollH}
+                        sortBy={sortBy}
                     />
                 )}
             </table>
@@ -95,7 +107,13 @@ export const Datatable = ({
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />
-                <Pagination results={results} navigate={paginationNavigate} />
+
+                {paginate && (
+                    <Pagination
+                        results={results}
+                        navigate={paginationNavigate}
+                    />
+                )}
             </div>
         </div>
     );
