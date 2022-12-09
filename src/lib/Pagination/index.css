@@ -1,0 +1,17 @@
+.next-prev {
+    border: none;
+    background-color: #0000;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out background-color;
+}
+
+.next-prev:not(:disabled):hover {
+    background-color: grey;
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
+}

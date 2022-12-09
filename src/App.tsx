@@ -49,9 +49,9 @@ function App() {
             <Datatable
                 headers={headers}
                 employees={employees.data}
-                // paginate={true}
+                paginate={true}
                 options={options}
-                scrollH={300}
+                // scrollH={300}
             />
         </div>
     );

@@ -46,3 +46,9 @@ tr:nth-child(odd) .sorted {
 tr:nth-child(even) .sorted {
     background-color: #fafafa;
 }
+
+.entries-pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

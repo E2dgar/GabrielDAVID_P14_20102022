@@ -22,7 +22,7 @@ export const TBody = ({
     };
 
     return (
-        <tbody style={scrollStyle}>
+        <tbody style={scrollH ? scrollStyle : {}}>
             {results[pageIndex].map((employee, index) => (
                 <Row
                     key={`row-${index}`}

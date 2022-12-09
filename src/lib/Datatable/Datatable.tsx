@@ -101,7 +101,7 @@ export const Datatable = ({
                 )}
             </table>
 
-            <div>
+            <div className="entries-pagination-container">
                 <Breadcrumb
                     resultsLength={results.flat().length}
                     currentIndex={pageIndex}
@@ -112,6 +112,7 @@ export const Datatable = ({
                     <Pagination
                         results={results}
                         navigate={paginationNavigate}
+                        currentIndex={pageIndex}
                     />
                 )}
             </div>
