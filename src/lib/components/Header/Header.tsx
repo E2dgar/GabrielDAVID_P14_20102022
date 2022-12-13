@@ -1,4 +1,4 @@
-import { RefObject, useRef } from 'react';
+import { useRef } from 'react';
 import React from 'react';
 import { sort } from '../func/sort';
 import { showEntries } from '../func/select';
