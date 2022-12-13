@@ -1,22 +1,10 @@
-import './App.css';
-import { Datatable } from './lib/Datatable';
+import { Datatable } from './lib';
 import { useFetch } from './hooks/fetch';
 import { get } from './api/http';
 import { ROUTES } from './constants/routes';
+import React from 'react';
 
 function App() {
-    /**TODO changer modélisation headers */
-    // const headers = [
-    //     { firstName: 'First name' },
-    //     { lastName: 'Last name' },
-    //     { startDate: 'Start Date' },
-    //     { department: 'Department' },
-    //     { dateOfBirth: 'Date of birth' },
-    //     { street: 'Street' },
-    //     { city: 'City' },
-    //     { state: 'State' },
-    //     { zipCode: 'Zip Code' }
-    // ];
     const headers = [
         { key: 'firstName', label: 'First name' },
         { key: 'lastName', label: 'Last name' },

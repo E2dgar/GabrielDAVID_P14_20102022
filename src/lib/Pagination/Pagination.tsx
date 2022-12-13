@@ -12,17 +12,6 @@ export const Pagination = ({
     navigate,
     currentIndex
 }: PaginationT) => {
-    // const isButtonVisible = (index: number) => {
-    //     if (
-    //         index === 0 ||
-    //         index === results.length - 1 ||
-    //         (index > currentIndex - 3 && index < currentIndex + 3)
-    //     ) {
-    //         return '';
-    //     } else {
-    //         return 'hide';
-    //     }
-    // };
     const isButtonVisible = (index: number) => {
         return (
             index === 0 ||
