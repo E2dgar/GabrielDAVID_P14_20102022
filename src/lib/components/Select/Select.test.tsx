@@ -38,19 +38,12 @@ const employees = {
     error: false
 };
 
-const options = [
-    { value: 10, text: '10' },
-    { value: 20, text: '20' },
-    { value: 50, text: '50' }
-];
-
 describe('Select', () => {
     render(
         <Datatable
             headers={headers}
             employees={employees.data}
             paginate={true}
-            options={options}
         />
     );
 
@@ -58,9 +51,9 @@ describe('Select', () => {
     const buttons = screen.getAllByTestId('pagination-button');
     const rows = screen.getAllByTestId('row');
 
-    test('has 3 options', () => {
+    test('has 4 options', () => {
         const optionsElt = screen.getAllByTestId('select-option');
-        expect(optionsElt.length).toBe(3);
+        expect(optionsElt.length).toBe(4);
     });
 
     test('has 10 entries by default', () => {

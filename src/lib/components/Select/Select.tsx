@@ -8,7 +8,6 @@ export interface SelectOption {
 }
 
 export type SelectType = {
-    options: SelectOption[] | null;
     setEntriesPerPage: React.Dispatch<React.SetStateAction<number>>;
     setPageIndex: React.Dispatch<React.SetStateAction<number>>;
     setResults: React.Dispatch<React.SetStateAction<any[][]>>;
@@ -19,7 +18,6 @@ export type SelectType = {
 };
 
 export const Select = ({
-    options,
     setEntriesPerPage,
     setPageIndex,
     setResults,
@@ -28,6 +26,12 @@ export const Select = ({
     resultsLength,
     paginate
 }: SelectType) => {
+    const options = [
+        { value: 10, text: '10' },
+        { value: 25, text: '25' },
+        { value: 50, text: '50' },
+        { value: 100, text: '100' }
+    ];
     const [selected, setSelected] = useState(options?.[0].value.toString());
 
     const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {

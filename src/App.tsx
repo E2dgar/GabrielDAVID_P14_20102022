@@ -19,13 +19,6 @@ function App() {
 
     const employees = useFetch(get(ROUTES.API));
 
-    const options = [
-        { value: 10, text: '10' },
-        { value: 25, text: '25' },
-        { value: 50, text: '50' },
-        { value: 100, text: '100' }
-    ];
-
     if (employees.isLoading) {
         return <p>Loading</p>;
     }
@@ -37,8 +30,7 @@ function App() {
             <Datatable
                 headers={headers}
                 employees={employees.data}
-                paginate={true}
-                options={options}
+                paginate={false}
                 // scrollH={300}
             />
         </div>

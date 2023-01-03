@@ -1,10 +1,4 @@
-import { showEntries } from './select';
-
-export const searchingData: any = (
-    term: string,
-    data: object[],
-    entries: number
-) => {
+export const searchingData = (term: string, data: object[]) => {
     const searchedTerms = term.split(' ');
     let results = data;
 
@@ -28,8 +22,6 @@ export const searchingData: any = (
             )
         );
     }
-
-    // results = showEntries(entries, results);
 
     return results;
 };

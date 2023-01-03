@@ -14,7 +14,6 @@ export type DatatableTypes = {
     employees: any[];
     paginate?: boolean;
     scrollH?: number;
-    options: SelectOption[] | null;
 };
 
 export type DataTableList = any[][];
@@ -23,10 +22,9 @@ export const Datatable = ({
     headers,
     employees,
     paginate,
-    options,
     scrollH
 }: DatatableTypes) => {
-    const [results, setResults] = useState<any[][]>([]);
+    const [results, setResults] = useState<DataTableList>([]);
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
@@ -65,7 +63,6 @@ export const Datatable = ({
             <div className="select-search-bar">
                 {paginate && (
                     <Select
-                        options={options}
                         setEntriesPerPage={setEntriesPerPage}
                         setPageIndex={setPageIndex}
                         currentPageIndex={pageIndex}
