@@ -14,8 +14,14 @@ export type SelectType = {
     results: any[][];
     currentPageIndex: number;
     resultsLength: number;
-    paginate: boolean;
 };
+
+const options = [
+    { value: 10, text: '10' },
+    { value: 25, text: '25' },
+    { value: 50, text: '50' },
+    { value: 100, text: '100' }
+];
 
 export const Select = ({
     setEntriesPerPage,
@@ -23,16 +29,9 @@ export const Select = ({
     setResults,
     results,
     currentPageIndex,
-    resultsLength,
-    paginate
+    resultsLength
 }: SelectType) => {
-    const options = [
-        { value: 10, text: '10' },
-        { value: 25, text: '25' },
-        { value: 50, text: '50' },
-        { value: 100, text: '100' }
-    ];
-    const [selected, setSelected] = useState(options?.[0].value.toString());
+    const [selected, setSelected] = useState(options?.[0].value);
 
     const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
         let firstRowIndex = 0;
@@ -42,7 +41,7 @@ export const Select = ({
 
         /**Get the index of firstrow to set new page index that display this entry */
         if (selected) {
-            firstRowIndex = currentPageIndex * parseInt(selected) + 1;
+            firstRowIndex = currentPageIndex * selected + 1;
         }
 
         for (let i = 1; i < numberOfPages; i++) {
@@ -51,16 +50,12 @@ export const Select = ({
             }
         }
 
-        setSelected(e.currentTarget.value);
+        setSelected(parseInt(e.currentTarget.value));
         setResults(
-            showEntries(
-                parseInt(e.currentTarget.value),
-                results.flat(),
-                paginate
-            )
+            showEntries(parseInt(e.currentTarget.value), results.flat(), true)
         );
         setPageIndex(newPageIndex);
-        console.log('index', newPageIndex);
+
         setEntriesPerPage(entriesNumber);
     };
 

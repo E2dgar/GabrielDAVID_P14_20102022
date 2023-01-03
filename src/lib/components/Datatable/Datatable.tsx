@@ -69,7 +69,6 @@ export const Datatable = ({
                         results={results}
                         setResults={setResults}
                         resultsLength={results.flat().length}
-                        paginate={true}
                     />
                 )}
 
