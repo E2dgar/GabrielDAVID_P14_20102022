@@ -21,6 +21,8 @@ export const TBody = ({
         overflowY: 'scroll' as 'scroll'
     };
 
+    console.log('res', results);
+
     return (
         <tbody style={scrollH ? scrollStyle : {}}>
             {results[pageIndex].map((employee, index) => (

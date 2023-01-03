@@ -35,6 +35,7 @@ export const Datatable = ({
     }, []);
 
     useEffect(() => {
+        setPageIndex(0);
         setResults(
             showEntries(
                 entriesPerPage,

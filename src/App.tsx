@@ -30,7 +30,7 @@ function App() {
             <Datatable
                 headers={headers}
                 employees={employees.data}
-                paginate={false}
+                paginate
                 // scrollH={300}
             />
         </div>
