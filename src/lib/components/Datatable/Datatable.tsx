@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { Search } from '../Search';
 import './index.css';
-import { Select, SelectOption } from '../Select';
+import { Select } from '../Select';
 import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
 import { Pagination } from '../Pagination';
