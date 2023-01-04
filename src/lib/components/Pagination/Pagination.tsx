@@ -5,12 +5,14 @@ export type PaginationT = {
     results: any[][];
     navigate: any;
     currentIndex: number;
+    entriesPerPage: number;
 };
 
 export const Pagination = ({
     results,
     navigate,
-    currentIndex
+    currentIndex,
+    entriesPerPage
 }: PaginationT) => {
     const isButtonVisible = (index: number) => {
         return (

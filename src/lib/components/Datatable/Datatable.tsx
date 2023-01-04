@@ -5,6 +5,7 @@ import './index.css';
 import { Select } from '../Select';
 import { searchingData } from '../func/search';
 import { showEntries } from '../func/select';
+import { entries } from '../func/entries';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
 import { TBody } from '../TBody';
@@ -16,7 +17,7 @@ export type DatatableTypes = {
     scrollH?: number;
 };
 
-export type DataTableList = any[][];
+export type DataTableList = any[];
 
 export const Datatable = ({
     headers,
@@ -24,25 +25,22 @@ export const Datatable = ({
     paginate,
     scrollH
 }: DatatableTypes) => {
-    const [results, setResults] = useState<DataTableList>([]);
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
+    const [results, setResults] = useState<DataTableList>([]);
+    const [resultsLength, setResultsLength] = useState<number>(0);
     const [sortBy, setSortBy] = useState<string>('');
 
     useEffect(() => {
-        setResults(showEntries(entriesPerPage, employees, !!paginate));
+        setResults(employees);
+        setResultsLength(employees.length);
     }, []);
 
     useEffect(() => {
         setPageIndex(0);
-        setResults(
-            showEntries(
-                entriesPerPage,
-                searchingData(searchedTerms, employees),
-                !!paginate
-            )
-        );
+        setResults(searchingData(searchedTerms, employees));
+        setResultsLength(results.length);
     }, [searchedTerms]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
@@ -62,16 +60,7 @@ export const Datatable = ({
     return (
         <div className="table-container">
             <div className="select-search-bar">
-                {paginate && (
-                    <Select
-                        setEntriesPerPage={setEntriesPerPage}
-                        setPageIndex={setPageIndex}
-                        currentPageIndex={pageIndex}
-                        results={results}
-                        setResults={setResults}
-                        resultsLength={results.flat().length}
-                    />
-                )}
+                {paginate && <Select setEntriesPerPage={setEntriesPerPage} />}
 
                 <Search onChange={handleSearch} />
             </div>
@@ -87,20 +76,18 @@ export const Datatable = ({
                     scrollH={scrollH}
                 />
 
-                {results[0] && (
-                    <TBody
-                        results={results}
-                        headers={headers}
-                        pageIndex={pageIndex}
-                        scrollH={scrollH}
-                        sortBy={sortBy}
-                    />
-                )}
+                <TBody
+                    results={results}
+                    headers={headers}
+                    scrollH={scrollH}
+                    entriesPerPage={entriesPerPage}
+                    pageIndex={pageIndex}
+                />
             </table>
 
             <div className="entries-pagination-container">
                 <Breadcrumb
-                    resultsLength={results.flat().length}
+                    resultsLength={resultsLength}
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />
@@ -109,6 +96,7 @@ export const Datatable = ({
                     <Pagination
                         results={results}
                         navigate={paginationNavigate}
+                        entriesPerPage={entriesPerPage}
                         currentIndex={pageIndex}
                     />
                 )}

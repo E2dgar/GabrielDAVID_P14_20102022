@@ -1,11 +1,13 @@
 import { Row } from '../Row';
+import { entries } from '../func/entries';
 
 type TBodyType = {
-    results: any[][];
+    results: any[];
     pageIndex: number;
     headers: any[];
     scrollH?: number;
-    sortBy: string;
+    sortBy?: string;
+    entriesPerPage: number;
 };
 
 export const TBody = ({
@@ -13,27 +15,29 @@ export const TBody = ({
     pageIndex,
     headers,
     scrollH,
-    sortBy
-}: TBodyType) => {
+    entriesPerPage
+}: // sortBy
+TBodyType) => {
     const scrollStyle = {
         maxHeight: `${scrollH}px`,
         display: 'block',
         overflowY: 'scroll' as 'scroll'
     };
 
-    console.log('res', results);
-
     return (
         <tbody style={scrollH ? scrollStyle : {}}>
-            {results[pageIndex].map((employee, index) => (
-                <Row
-                    key={`row-${index}`}
-                    data={employee}
-                    headers={headers}
-                    scrollH={scrollH}
-                    sortBy={sortBy}
-                />
-            ))}
+            {results.length > 0 &&
+                entries(entriesPerPage, results, pageIndex).map(
+                    (employee, index) => (
+                        <Row
+                            key={`row-${index}`}
+                            data={employee}
+                            headers={headers}
+                            scrollH={scrollH}
+                            // sortBy={sortBy}
+                        />
+                    )
+                )}
         </tbody>
     );
 };
