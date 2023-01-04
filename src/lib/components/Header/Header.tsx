@@ -49,14 +49,20 @@ export const Header = ({
                 showEntries(
                     entriesPerPage,
                     sort(results.flat(), newSortBy.getAttribute('data-column')),
-                    paginate
+                    paginate,
+                    0
                 )
             );
             newSortBy.setAttribute('data-sort', 'ASC');
         } else {
             newSortBy.setAttribute('data-sort', 'DESC');
             setResults(
-                showEntries(entriesPerPage, results.flat().reverse(), paginate)
+                showEntries(
+                    entriesPerPage,
+                    results.flat().reverse(),
+                    paginate,
+                    0
+                )
             );
         }
     };

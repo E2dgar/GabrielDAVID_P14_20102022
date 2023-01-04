@@ -4,7 +4,7 @@ type RowT = {
     data: any;
     headers: DataT[];
     scrollH?: number;
-    sortBy: string;
+    sortBy?: string;
 };
 
 export const Row = ({ data, headers, scrollH, sortBy }: RowT) => {
