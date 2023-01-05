@@ -90,6 +90,7 @@ export const Datatable = ({
                         results={results}
                         navigate={paginationNavigate}
                         currentIndex={pageIndex}
+                        entriesPerPage={entriesPerPage}
                     />
                 )}
             </div>

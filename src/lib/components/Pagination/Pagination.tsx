@@ -5,17 +5,23 @@ export type PaginationT = {
     results: any[];
     navigate: any;
     currentIndex: number;
+    entriesPerPage: number;
 };
 
 export const Pagination = ({
     results,
     navigate,
-    currentIndex
+    currentIndex,
+    entriesPerPage
 }: PaginationT) => {
+    const pagesNumber = Math.ceil(results.length / entriesPerPage);
+
+    const mappingArray = results.slice(0, pagesNumber);
+
     const isButtonVisible = (index: number) => {
         return (
             index === 0 ||
-            index === results.length - 1 ||
+            index === mappingArray.length - 1 ||
             (index > currentIndex - 3 && index < currentIndex + 3)
         );
     };
@@ -28,7 +34,8 @@ export const Pagination = ({
                 onClick={navigate}>
                 Previous
             </button>
-            {results.map((__, index) =>
+
+            {mappingArray.map((__, index) =>
                 isButtonVisible(index) ? (
                     <Button
                         className={`pagination-button ${
@@ -42,6 +49,7 @@ export const Pagination = ({
                     '...'
                 ) : null
             )}
+
             <button
                 onClick={navigate}
                 className="next-prev"

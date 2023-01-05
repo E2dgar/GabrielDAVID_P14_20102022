@@ -67,7 +67,7 @@ describe('Select', () => {
     });
 
     test('Pagination has 3 button', () => {
-        expect(buttons.length).toBe(4);
+        expect(buttons.length).toBe(3);
     });
 
     test('Datatable has 10 rows', () => {
