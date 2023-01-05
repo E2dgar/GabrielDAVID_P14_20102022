@@ -45,17 +45,9 @@ export const Datatable = ({
     }, [searchedTerms]);
 
     useEffect(() => {
-        if (sortBy) {
-            let sortedResults = results;
-
-            if (sortBy.order === 'ASC') {
-                sortedResults = sort(sortedResults, sortBy.header);
-            } else {
-                sortedResults.reverse();
-            }
-            setResults(sortedResults);
+        if (sortBy.header) {
+            setResults(sort(results, sortBy));
         }
-        console.log(sortBy);
     }, [sortBy]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
