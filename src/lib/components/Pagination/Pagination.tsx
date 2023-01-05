@@ -2,17 +2,15 @@ import { Button } from '../Button';
 import './index.css';
 
 export type PaginationT = {
-    results: any[][];
+    results: any[];
     navigate: any;
     currentIndex: number;
-    entriesPerPage: number;
 };
 
 export const Pagination = ({
     results,
     navigate,
-    currentIndex,
-    entriesPerPage
+    currentIndex
 }: PaginationT) => {
     const isButtonVisible = (index: number) => {
         return (
@@ -30,7 +28,7 @@ export const Pagination = ({
                 onClick={navigate}>
                 Previous
             </button>
-            {results.map((_, index) =>
+            {results.map((__, index) =>
                 isButtonVisible(index) ? (
                     <Button
                         className={`pagination-button ${

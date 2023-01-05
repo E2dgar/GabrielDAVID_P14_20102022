@@ -14,18 +14,11 @@ export const TBody = ({
     results,
     pageIndex,
     headers,
-    scrollH,
     entriesPerPage
 }: // sortBy
 TBodyType) => {
-    const scrollStyle = {
-        maxHeight: `${scrollH}px`,
-        display: 'block',
-        overflowY: 'scroll' as 'scroll'
-    };
-
     return (
-        <tbody style={scrollH ? scrollStyle : {}}>
+        <tbody>
             {results.length > 0 &&
                 entries(entriesPerPage, results, pageIndex).map(
                     (employee, index) => (
@@ -33,8 +26,6 @@ TBodyType) => {
                             key={`row-${index}`}
                             data={employee}
                             headers={headers}
-                            scrollH={scrollH}
-                            // sortBy={sortBy}
                         />
                     )
                 )}

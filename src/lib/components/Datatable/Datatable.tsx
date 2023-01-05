@@ -5,8 +5,6 @@ import './index.css';
 import { Select } from '../Select';
 import { searchingData } from '../func/search';
 import { sort } from '../func/sort';
-import { showEntries } from '../func/select';
-import { entries } from '../func/entries';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
 import { TBody } from '../TBody';
@@ -30,18 +28,15 @@ export const Datatable = ({
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>([]);
-    const [resultsLength, setResultsLength] = useState<number>(0);
     const [sortBy, setSortBy] = useState<any>({});
 
     useEffect(() => {
         setResults(employees);
-        setResultsLength(employees.length);
     }, []);
 
     useEffect(() => {
         setPageIndex(0);
         setResults(searchingData(searchedTerms, employees));
-        setResultsLength(results.length);
     }, [searchedTerms]);
 
     useEffect(() => {
@@ -65,7 +60,7 @@ export const Datatable = ({
     };
 
     return (
-        <div className="table-container">
+        <div className="table-container" data-scroll={scrollH}>
             <div className="select-search-bar">
                 {paginate && <Select setEntriesPerPage={setEntriesPerPage} />}
 
@@ -78,7 +73,6 @@ export const Datatable = ({
                 <TBody
                     results={results}
                     headers={headers}
-                    scrollH={scrollH}
                     entriesPerPage={entriesPerPage}
                     pageIndex={pageIndex}
                 />
@@ -86,7 +80,7 @@ export const Datatable = ({
 
             <div className="entries-pagination-container">
                 <Breadcrumb
-                    resultsLength={resultsLength}
+                    resultsLength={results.length}
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />
@@ -95,7 +89,6 @@ export const Datatable = ({
                     <Pagination
                         results={results}
                         navigate={paginationNavigate}
-                        entriesPerPage={entriesPerPage}
                         currentIndex={pageIndex}
                     />
                 )}
