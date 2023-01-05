@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import React from 'react';
 
 type HeadersType = {
     headers: any[];

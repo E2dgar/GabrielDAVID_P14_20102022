@@ -4,6 +4,7 @@ import { Search } from '../Search';
 import './index.css';
 import { Select } from '../Select';
 import { searchingData } from '../func/search';
+import { sort } from '../func/sort';
 import { showEntries } from '../func/select';
 import { entries } from '../func/entries';
 import { Pagination } from '../Pagination';
@@ -44,6 +45,16 @@ export const Datatable = ({
     }, [searchedTerms]);
 
     useEffect(() => {
+        if (sortBy) {
+            let sortedResults = results;
+
+            if (sortBy.order === 'ASC') {
+                sortedResults = sort(sortedResults, sortBy.header);
+            } else {
+                sortedResults.reverse();
+            }
+            setResults(sortedResults);
+        }
         console.log(sortBy);
     }, [sortBy]);
 
