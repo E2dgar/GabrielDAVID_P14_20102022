@@ -50,7 +50,6 @@ describe('Headers', () => {
             headers={headers}
             employees={employees.data}
             paginate={true}
-            options={options}
         />
     );
 
