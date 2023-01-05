@@ -30,7 +30,7 @@ export const Datatable = ({
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>([]);
     const [resultsLength, setResultsLength] = useState<number>(0);
-    const [sortBy, setSortBy] = useState<string>('');
+    const [sortBy, setSortBy] = useState<any>({});
 
     useEffect(() => {
         setResults(employees);
@@ -42,6 +42,10 @@ export const Datatable = ({
         setResults(searchingData(searchedTerms, employees));
         setResultsLength(results.length);
     }, [searchedTerms]);
+
+    useEffect(() => {
+        console.log(sortBy);
+    }, [sortBy]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
@@ -66,15 +70,7 @@ export const Datatable = ({
             </div>
 
             <table data-testid="datatable" className="datatable">
-                <Header
-                    headers={headers}
-                    results={results}
-                    setResults={setResults}
-                    setSortBy={setSortBy}
-                    entriesPerPage={entriesPerPage}
-                    paginate={!!paginate}
-                    scrollH={scrollH}
-                />
+                <Header headers={headers} setSortBy={setSortBy} />
 
                 <TBody
                     results={results}
