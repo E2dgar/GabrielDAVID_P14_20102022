@@ -32,6 +32,16 @@ const employees = {
         { firstName: 'Peter', lastName: 'Parker' },
         { firstName: 'John', lastName: 'Doe' },
         { firstName: 'Jack', lastName: 'Black' },
+        { firstName: 'Peter', lastName: 'Parker' },
+        { firstName: 'Peter', lastName: 'Parker' },
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jack', lastName: 'Black' },
+        { firstName: 'Peter', lastName: 'Parker' },
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jack', lastName: 'Black' },
+        { firstName: 'Peter', lastName: 'Parker' },
+        { firstName: 'John', lastName: 'Doe' },
+        { firstName: 'Jack', lastName: 'Black' },
         { firstName: 'Peter', lastName: 'Parker' }
     ],
     isLoading: false,
@@ -67,7 +77,7 @@ describe('Select', () => {
     });
 
     test('Pagination has 3 button', () => {
-        expect(buttons.length).toBe(3);
+        expect(buttons.length).toBe(4);
     });
 
     test('Datatable has 10 rows', () => {

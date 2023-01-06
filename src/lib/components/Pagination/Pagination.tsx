@@ -14,14 +14,14 @@ export const Pagination = ({
     currentIndex,
     entriesPerPage
 }: PaginationT) => {
-    // const pagesNumber = Math.ceil(results.length / entriesPerPage);
+    const pagesNumber = Math.ceil(results.length / entriesPerPage);
 
-    // const mappingArray = results.slice(0, pagesNumber);
+    const mappingArray = results.slice(0, pagesNumber);
 
     const isButtonVisible = (index: number) => {
         return (
             index === 0 ||
-            index === results.length - 1 ||
+            index === pagesNumber - 1 ||
             (index > currentIndex - 3 && index < currentIndex + 3)
         );
     };
@@ -35,7 +35,7 @@ export const Pagination = ({
                 Previous
             </button>
 
-            {results.map((__, index) =>
+            {mappingArray.map((__, index) =>
                 isButtonVisible(index) ? (
                     <Button
                         className={`pagination-button ${

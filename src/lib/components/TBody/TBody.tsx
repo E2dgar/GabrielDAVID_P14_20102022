@@ -1,43 +1,20 @@
 import { Row } from '../Row';
-import { entries } from '../func/entries';
-import { showEntries } from '../func/select';
 
-type TBodyType = {
+type TBodyT = {
     results: any[];
-    // pageIndex: number;
     headers: any[];
-    scrollH?: number;
-    sortBy?: string;
-    entriesPerPage: number;
-    paginate: boolean;
 };
 
-export const TBody = ({
-    results,
-    // pageIndex,
-    headers,
-    entriesPerPage,
-    paginate
-}: // sortBy
-TBodyType) => {
-    const data = showEntries(entriesPerPage, results, paginate);
-    // console.log(results);
+export const TBody = ({ results, headers }: TBodyT) => {
     return (
-        <>
-            {/* <tbody> */}
-            {/* {results.length > 0 &&
-                entries(entriesPerPage, results, pageIndex).map(
-                    (employee, index) => (
-                        <Row
-                            key={`row-${index}`}
-                            data={employee}
-                            headers={headers}
-                        />
-                    )
-                )} */}
+        <tbody>
             {results.map((employee: any[], index: number) => (
-                <Row key={`row-${index}`} data={employee} headers={headers} />
+                <Row
+                    key={`data-row-${index}`}
+                    data={employee}
+                    headers={headers}
+                />
             ))}
-        </>
+        </tbody>
     );
 };

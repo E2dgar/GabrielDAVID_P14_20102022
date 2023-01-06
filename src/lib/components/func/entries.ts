@@ -14,6 +14,16 @@ export const entries = (
     const from = pageIndex * entriesPerPage;
     const to = from + entriesPerPage - 1;
 
+    console.log(from + ' à ' + to);
+    console.log(
+        'new res',
+        dataFiltered.filter(
+            (element) =>
+                dataFiltered.indexOf(element) >= from &&
+                dataFiltered.indexOf(element) <= to
+        )
+    );
+
     return dataFiltered.filter(
         (element) =>
             dataFiltered.indexOf(element) >= from &&

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { Search } from '../Search';
 import './index.css';
@@ -7,9 +7,11 @@ import { searchingData } from '../func/search';
 import { sort } from '../func/sort';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
-import { TBody } from '../TBody';
 import { showEntries } from '../func/select';
+import { dataFiltered } from '../func/dataFiltered';
 import { Row } from '../Row';
+import { entries } from '../func/entries';
+import { TBody } from '../TBody';
 
 export type DatatableTypes = {
     headers: any[];
@@ -18,7 +20,7 @@ export type DatatableTypes = {
     scrollH?: number;
 };
 
-export type DataTableList = any[][];
+export type DataTableList = any[];
 
 export const Datatable = ({
     headers,
@@ -30,45 +32,59 @@ export const Datatable = ({
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>([]);
+    const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
     const [sortBy, setSortBy] = useState<any>({});
 
     useEffect(() => {
-        // setResults([employees]);
-        setResults(showEntries(entriesPerPage, employees, !!paginate));
-    }, []);
-
-    useEffect(() => {
-        if (results[0]) {
-            setResults(showEntries(entriesPerPage, results.flat(), !!paginate));
-        }
-    }, [entriesPerPage]);
-
-    useEffect(() => {
-        if (searchedTerms) {
-            setPageIndex(0);
-            setResults(
-                showEntries(
-                    entriesPerPage,
-                    searchingData(searchedTerms, employees),
-                    !!paginate
-                )
-            );
-        } else {
-            setResults(showEntries(entriesPerPage, employees, !!paginate));
-        }
+        setResults(
+            searchedTerms.length > 0
+                ? searchingData(
+                      searchedTerms,
+                      sortBy.header ? results : employees
+                  )
+                : employees
+        );
     }, [searchedTerms]);
 
     useEffect(() => {
+        setResultsToDisplay(dataFiltered(results, pageIndex, entriesPerPage));
+    }, [results, pageIndex, entriesPerPage]);
+
+    useEffect(() => {
         if (sortBy.header) {
-            setResults(
-                showEntries(
-                    entriesPerPage,
-                    sort(results.flat(), sortBy),
-                    !!paginate
-                )
-            );
+            setResults(sort(results, sortBy));
         }
     }, [sortBy]);
+
+    // useEffect(() => {
+    //     //     if (results.length > 0) {
+    //     console.log('entrieP', entriesPerPage);
+    //     setResults(entries(entriesPerPage, results, pageIndex));
+
+    //     // }
+    // }, [entriesPerPage]);
+
+    // useEffect(() => {
+    //     if (searchedTerms) {
+    //         setPageIndex(0);
+    //         setResults(
+    //             showEntries(
+    //                 entriesPerPage,
+    //                 searchingData(searchedTerms, employees)
+    //             )
+    //         );
+    //     } else {
+    //         setResults(showEntries(entriesPerPage, employees));
+    //     }
+    // }, [searchedTerms]);
+
+    // useEffect(() => {
+    //     if (sortBy.header) {
+    //         setResults(
+    //             entries(entriesPerPage, sort(results, sortBy), pageIndex)
+    //         );
+    //     }
+    // }, [sortBy]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
@@ -92,7 +108,7 @@ export const Datatable = ({
                         setEntriesPerPage={setEntriesPerPage}
                         setPageIndex={setPageIndex}
                         currentPageIndex={pageIndex}
-                        resultsLength={results.flat().length}
+                        resultsLength={results.length}
                     />
                 )}
 
@@ -107,22 +123,19 @@ export const Datatable = ({
                 </thead>
 
                 <tbody>
-                    {results[0] &&
-                        results[pageIndex].map(
-                            (employee: any[], index: number) => (
-                                <Row
-                                    key={`row-${index}`}
-                                    data={employee}
-                                    headers={headers}
-                                />
-                            )
-                        )}
+                    {resultsToDisplay.map((employee: any[], index: number) => (
+                        <Row
+                            key={`row-${index}`}
+                            data={employee}
+                            headers={headers}
+                        />
+                    ))}
                 </tbody>
             </table>
 
             <div className="entries-pagination-container">
                 <Breadcrumb
-                    resultsLength={results.flat().length}
+                    resultsLength={results.length}
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />

@@ -4,7 +4,7 @@ import React from 'react';
 
 const headers = [{ firstName: 'First name' }, { lastName: 'Last name' }];
 
-const employees = { data: [[]], isLoading: false, error: false };
+const employees = { data: [], isLoading: false, error: false };
 
 describe('Datatable', () => {
     test('Component is rendered correctly', async () => {
