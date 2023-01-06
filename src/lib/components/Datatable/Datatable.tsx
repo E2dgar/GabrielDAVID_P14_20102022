@@ -7,11 +7,8 @@ import { searchingData } from '../func/search';
 import { sort } from '../func/sort';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
-import { showEntries } from '../func/select';
 import { dataFiltered } from '../func/dataFiltered';
 import { Row } from '../Row';
-import { entries } from '../func/entries';
-import { TBody } from '../TBody';
 
 export type DatatableTypes = {
     headers: any[];
@@ -55,36 +52,6 @@ export const Datatable = ({
             setResults(sort(results, sortBy));
         }
     }, [sortBy]);
-
-    // useEffect(() => {
-    //     //     if (results.length > 0) {
-    //     console.log('entrieP', entriesPerPage);
-    //     setResults(entries(entriesPerPage, results, pageIndex));
-
-    //     // }
-    // }, [entriesPerPage]);
-
-    // useEffect(() => {
-    //     if (searchedTerms) {
-    //         setPageIndex(0);
-    //         setResults(
-    //             showEntries(
-    //                 entriesPerPage,
-    //                 searchingData(searchedTerms, employees)
-    //             )
-    //         );
-    //     } else {
-    //         setResults(showEntries(entriesPerPage, employees));
-    //     }
-    // }, [searchedTerms]);
-
-    // useEffect(() => {
-    //     if (sortBy.header) {
-    //         setResults(
-    //             entries(entriesPerPage, sort(results, sortBy), pageIndex)
-    //         );
-    //     }
-    // }, [sortBy]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
