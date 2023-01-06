@@ -28,18 +28,13 @@ export const Datatable = ({
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
-    const [results, setResults] = useState<DataTableList>([]);
+    const [results, setResults] = useState<DataTableList>(employees);
     const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
     const [sortBy, setSortBy] = useState<any>({});
 
     useEffect(() => {
         setResults(
-            searchedTerms.length > 0
-                ? searchingData(
-                      searchedTerms,
-                      sortBy.header ? results : employees
-                  )
-                : employees
+            searchingData(searchedTerms, sortBy.header ? results : employees)
         );
     }, [searchedTerms]);
 
@@ -90,9 +85,9 @@ export const Datatable = ({
                 </thead>
 
                 <tbody>
-                    {resultsToDisplay.map((employee: any[], index: number) => (
+                    {resultsToDisplay.map((employee: any[]) => (
                         <Row
-                            key={`row-${index}`}
+                            key={JSON.stringify(employee)}
                             data={employee}
                             headers={headers}
                         />

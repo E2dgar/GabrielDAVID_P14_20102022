@@ -1,6 +1,5 @@
 import './index.css';
 import { useState } from 'react';
-import { showEntries } from '../func/select';
 
 export interface SelectOption {
     value: number;
@@ -10,8 +9,6 @@ export interface SelectOption {
 export type SelectType = {
     setEntriesPerPage: React.Dispatch<React.SetStateAction<number>>;
     setPageIndex: React.Dispatch<React.SetStateAction<number>>;
-    // setResults: React.Dispatch<React.SetStateAction<any[][]>>;
-    // results: any[][];
     currentPageIndex: number;
     resultsLength: number;
 };
@@ -28,10 +25,7 @@ export const Select = ({
     setPageIndex,
     currentPageIndex,
     resultsLength
-}: // setResults,
-// results,
-
-SelectType) => {
+}: SelectType) => {
     const [selected, setSelected] = useState(options?.[0].value);
 
     const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
