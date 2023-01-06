@@ -2,7 +2,7 @@ export const searchingData = (term: string, data: any[]) => {
     const searchedTerms = term.split(' ');
     let results = data;
 
-    if (term.split('').shift() === ' ') {
+    if (term.split('').shift() === '' || term === '') {
         return data;
     }
 

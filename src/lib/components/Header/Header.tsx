@@ -37,19 +37,17 @@ export const Header = ({ headers, setSortBy }: HeadersType) => {
     };
 
     return (
-        <thead data-testid="datatable-headers">
-            <tr>
-                {headers.map((header: any, i: number) => (
-                    <th
-                        key={`header-${i}`}
-                        ref={(elt) => (refs.current[i] = elt)}
-                        data-column={header.key}
-                        onClick={() => handleClick(i)}
-                        data-testid="header">
-                        {header.label}
-                    </th>
-                ))}
-            </tr>
-        </thead>
+        <>
+            {headers.map((header: any, i: number) => (
+                <th
+                    key={`header-${i}`}
+                    ref={(elt) => (refs.current[i] = elt)}
+                    data-column={header.key}
+                    onClick={() => handleClick(i)}
+                    data-testid="header">
+                    {header.label}
+                </th>
+            ))}
+        </>
     );
 };

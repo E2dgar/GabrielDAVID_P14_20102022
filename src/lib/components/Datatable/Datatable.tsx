@@ -8,6 +8,8 @@ import { sort } from '../func/sort';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
 import { TBody } from '../TBody';
+import { showEntries } from '../func/select';
+import { Row } from '../Row';
 
 export type DatatableTypes = {
     headers: any[];
@@ -16,7 +18,7 @@ export type DatatableTypes = {
     scrollH?: number;
 };
 
-export type DataTableList = any[];
+export type DataTableList = any[][];
 
 export const Datatable = ({
     headers,
@@ -31,17 +33,40 @@ export const Datatable = ({
     const [sortBy, setSortBy] = useState<any>({});
 
     useEffect(() => {
-        setResults(employees);
+        // setResults([employees]);
+        setResults(showEntries(entriesPerPage, employees, !!paginate));
     }, []);
 
     useEffect(() => {
-        setPageIndex(0);
-        setResults(searchingData(searchedTerms, employees));
+        if (results[0]) {
+            setResults(showEntries(entriesPerPage, results.flat(), !!paginate));
+        }
+    }, [entriesPerPage]);
+
+    useEffect(() => {
+        if (searchedTerms) {
+            setPageIndex(0);
+            setResults(
+                showEntries(
+                    entriesPerPage,
+                    searchingData(searchedTerms, employees),
+                    !!paginate
+                )
+            );
+        } else {
+            setResults(showEntries(entriesPerPage, employees, !!paginate));
+        }
     }, [searchedTerms]);
 
     useEffect(() => {
         if (sortBy.header) {
-            setResults(sort(results, sortBy));
+            setResults(
+                showEntries(
+                    entriesPerPage,
+                    sort(results.flat(), sortBy),
+                    !!paginate
+                )
+            );
         }
     }, [sortBy]);
 
@@ -67,7 +92,7 @@ export const Datatable = ({
                         setEntriesPerPage={setEntriesPerPage}
                         setPageIndex={setPageIndex}
                         currentPageIndex={pageIndex}
-                        resultsLength={results.length}
+                        resultsLength={results.flat().length}
                     />
                 )}
 
@@ -75,19 +100,29 @@ export const Datatable = ({
             </div>
 
             <table data-testid="datatable" className="datatable">
-                <Header headers={headers} setSortBy={setSortBy} />
+                <thead data-testid="datatable-headers">
+                    <tr>
+                        <Header headers={headers} setSortBy={setSortBy} />
+                    </tr>
+                </thead>
 
-                <TBody
-                    results={results}
-                    headers={headers}
-                    entriesPerPage={entriesPerPage}
-                    pageIndex={pageIndex}
-                />
+                <tbody>
+                    {results[0] &&
+                        results[pageIndex].map(
+                            (employee: any[], index: number) => (
+                                <Row
+                                    key={`row-${index}`}
+                                    data={employee}
+                                    headers={headers}
+                                />
+                            )
+                        )}
+                </tbody>
             </table>
 
             <div className="entries-pagination-container">
                 <Breadcrumb
-                    resultsLength={results.length}
+                    resultsLength={results.flat().length}
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />
