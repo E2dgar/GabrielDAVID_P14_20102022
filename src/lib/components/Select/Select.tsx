@@ -7,10 +7,11 @@ export interface SelectOption {
 }
 
 export type SelectType = {
-    setEntriesPerPage: React.Dispatch<React.SetStateAction<number>>;
-    setPageIndex: React.Dispatch<React.SetStateAction<number>>;
-    currentPageIndex: number;
-    resultsLength: number;
+    // setEntriesPerPage: React.Dispatch<React.SetStateAction<number>>;
+    // setPageIndex: React.Dispatch<React.SetStateAction<number>>;
+    // currentPageIndex: number;
+    // resultsLength: number;
+    onChange: any;
 };
 
 const options = [
@@ -21,35 +22,36 @@ const options = [
 ];
 
 export const Select = ({
-    setEntriesPerPage,
-    setPageIndex,
-    currentPageIndex,
-    resultsLength
+    // setEntriesPerPage,
+    // setPageIndex,
+    // currentPageIndex,
+    // resultsLength
+    onChange
 }: SelectType) => {
-    const [selected, setSelected] = useState(options?.[0].value);
+    // const [selected, setSelected] = useState(options?.[0].value);
 
-    const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        /* Save firstRow index */
-        const firstRowIndex = currentPageIndex * selected;
+    // const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    //     /* Save firstRow index */
+    //     const firstRowIndex = currentPageIndex * selected;
 
-        const newEntriesPerPage = parseInt(e.currentTarget.value);
+    //     const newEntriesPerPage = parseInt(e.currentTarget.value);
 
-        /* New index must diplay the old first row*/
-        const newIndex = Math.floor(firstRowIndex / newEntriesPerPage);
+    //     /* New index must diplay the old first row*/
+    //     const newIndex = Math.floor(firstRowIndex / newEntriesPerPage);
 
-        setSelected(newEntriesPerPage);
+    //     setSelected(newEntriesPerPage);
 
-        setPageIndex(newIndex);
+    //     setPageIndex(newIndex);
 
-        setEntriesPerPage(newEntriesPerPage);
-    };
+    //     setEntriesPerPage(newEntriesPerPage);
+    // };
 
     return (
         <select
             data-testid="select"
             className="entries-select"
-            value={selected}
-            onChange={(e) => handleChange(e)}>
+            // value={selected}
+            onChange={onChange}>
             {options?.map((option) => (
                 <option
                     data-testid="select-option"

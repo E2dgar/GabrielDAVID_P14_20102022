@@ -63,6 +63,22 @@ export const Datatable = ({
         setSearchedTerms(e.currentTarget.value);
     };
 
+    const handleSelect = (e: React.FormEvent<HTMLSelectElement>) => {
+        /* Save firstRow index */
+        const firstRowIndex = pageIndex * entriesPerPage;
+
+        const newEntriesPerPage = parseInt(e.currentTarget.value);
+
+        /* New index must diplay the old first row*/
+        const newIndex = Math.floor(firstRowIndex / newEntriesPerPage);
+
+        // setSelected(newEntriesPerPage);
+
+        setPageIndex(newIndex);
+
+        setEntriesPerPage(newEntriesPerPage);
+    };
+
     const paginationNavigate = (e: React.MouseEvent) => {
         const indexAttribute = e.currentTarget.getAttribute('data-index');
 
@@ -78,10 +94,11 @@ export const Datatable = ({
                     <label>
                         Show
                         <Select
-                            setEntriesPerPage={setEntriesPerPage}
-                            setPageIndex={setPageIndex}
-                            currentPageIndex={pageIndex}
-                            resultsLength={results.length}
+                            // setEntriesPerPage={setEntriesPerPage}
+                            // setPageIndex={setPageIndex}
+                            // currentPageIndex={pageIndex}
+                            // resultsLength={results.length}
+                            onChange={handleSelect}
                         />
                         entries
                     </label>
