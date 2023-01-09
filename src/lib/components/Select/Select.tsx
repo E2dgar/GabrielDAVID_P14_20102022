@@ -28,7 +28,6 @@ export const Select = ({
 }: SelectType) => {
     const [selected, setSelected] = useState(options?.[0].value);
 
-    //console.log('select');
     const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
         /* Save firstRow index */
         const firstRowIndex = currentPageIndex * selected;
@@ -46,27 +45,19 @@ export const Select = ({
     };
 
     return (
-        <label>
-            Show
-            <select
-                data-testid="select"
-                className="entries-select"
-                value={selected}
-                onChange={(e) => handleChange(e)}>
-                {options?.map(
-                    (option) => (
-                        // option.value < resultsLength ? (
-                        <option
-                            data-testid="select-option"
-                            key={`option-${option.value}`}
-                            id={`option-${option.value}`}>
-                            {option.text}
-                        </option>
-                    )
-                    // ) : null
-                )}
-            </select>
-            entries
-        </label>
+        <select
+            data-testid="select"
+            className="entries-select"
+            value={selected}
+            onChange={(e) => handleChange(e)}>
+            {options?.map((option) => (
+                <option
+                    data-testid="select-option"
+                    key={`option-${option.value}`}
+                    id={`option-${option.value}`}>
+                    {option.text}
+                </option>
+            ))}
+        </select>
     );
 };

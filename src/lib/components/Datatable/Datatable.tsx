@@ -75,12 +75,16 @@ export const Datatable = ({
         <div className="table-container" data-scroll={scrollH}>
             <div className="select-search-bar">
                 {paginate && (
-                    <Select
-                        setEntriesPerPage={setEntriesPerPage}
-                        setPageIndex={setPageIndex}
-                        currentPageIndex={pageIndex}
-                        resultsLength={results.length}
-                    />
+                    <label>
+                        Show
+                        <Select
+                            setEntriesPerPage={setEntriesPerPage}
+                            setPageIndex={setPageIndex}
+                            currentPageIndex={pageIndex}
+                            resultsLength={results.length}
+                        />
+                        entries
+                    </label>
                 )}
 
                 <Search onChange={handleSearch} />
