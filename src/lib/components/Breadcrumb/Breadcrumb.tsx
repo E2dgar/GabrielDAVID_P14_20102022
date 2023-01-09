@@ -2,12 +2,14 @@ type BreadcrumbT = {
     resultsLength: number;
     currentIndex: number;
     entriesPerPage: number;
+    employeesLength: number;
 };
 
 export const Breadcrumb = ({
     resultsLength,
     currentIndex,
-    entriesPerPage
+    entriesPerPage,
+    employeesLength
 }: BreadcrumbT) => {
     const to =
         entriesPerPage * (currentIndex + 1) > resultsLength
@@ -17,7 +19,9 @@ export const Breadcrumb = ({
 
     return (
         <p data-testid="location">
-            Show {from} to {to} of {resultsLength} entries
+            Showing {from} to {to} of {resultsLength} entries{' '}
+            {employeesLength !== resultsLength &&
+                `(filtered from ${employeesLength} total entries)`}
         </p>
     );
 };

@@ -60,7 +60,7 @@ describe('Headers', () => {
 });
 
 describe('On one header click', () => {
-    const header = screen.getAllByTestId('header')[0];
+    const header = screen.getAllByTestId('header')[1];
     fireEvent.click(header);
     test("header have data-sort attr 'ASC'", () => {
         expect(header).toHaveAttribute('data-sort', 'ASC');

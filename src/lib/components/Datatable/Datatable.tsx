@@ -30,7 +30,10 @@ export const Datatable = ({
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>(employees);
     const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
-    const [sortBy, setSortBy] = useState<any>({});
+    const [sortBy, setSortBy] = useState<any>({
+        header: 'firstName',
+        order: 'ASC'
+    });
 
     useEffect(() => {
         setPageIndex(0);
@@ -101,6 +104,7 @@ export const Datatable = ({
             <div className="entries-pagination-container">
                 <Breadcrumb
                     resultsLength={results.length}
+                    employeesLength={employees.length}
                     currentIndex={pageIndex}
                     entriesPerPage={entriesPerPage}
                 />
