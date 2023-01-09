@@ -4,19 +4,19 @@ import { get } from './api/http';
 import { ROUTES } from './constants/routes';
 import React from 'react';
 
-function App() {
-    const headers = [
-        { key: 'firstName', label: 'First name' },
-        { key: 'lastName', label: 'Last name' },
-        { key: 'startDate', label: 'Start Date' },
-        { key: 'department', label: 'Department' },
-        { key: 'dateOfBirth', label: 'Date of birth' },
-        { key: 'street', label: 'Street' },
-        { key: 'city', label: 'City' },
-        { key: 'state', label: 'State' },
-        { key: 'zipCode', label: 'Zip Code' }
-    ];
+const headers = [
+    { key: 'firstName', label: 'First name' },
+    { key: 'lastName', label: 'Last name' },
+    { key: 'startDate', label: 'Start Date' },
+    { key: 'department', label: 'Department' },
+    { key: 'dateOfBirth', label: 'Date of birth' },
+    { key: 'street', label: 'Street' },
+    { key: 'city', label: 'City' },
+    { key: 'state', label: 'State' },
+    { key: 'zipCode', label: 'Zip Code' }
+];
 
+const App = () => {
     const employees = useFetch(get(ROUTES.API));
 
     if (employees.isLoading) {
@@ -25,6 +25,7 @@ function App() {
     if (employees.error) {
         return <p>Error</p>;
     }
+
     return (
         <div className="App">
             <Datatable
@@ -35,6 +36,6 @@ function App() {
             />
         </div>
     );
-}
+};
 
 export default App;

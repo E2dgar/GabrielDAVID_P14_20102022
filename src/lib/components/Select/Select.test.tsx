@@ -61,19 +61,14 @@ describe('Select', () => {
     const buttons = screen.getAllByTestId('pagination-button');
     const rows = screen.getAllByTestId('row');
 
-    test('has 4 options', () => {
-        const optionsElt = screen.getAllByTestId('select-option');
-        expect(optionsElt.length).toBe(4);
-    });
-
     test('has 10 entries by default', () => {
         expect(select.value).toBe('10');
     });
 
     test('right value is selected on change', () => {
-        fireEvent.change(select, { target: { value: '50' } });
+        fireEvent.change(select, { target: { value: '25' } });
 
-        expect(select.value).toBe('50');
+        expect(select.value).toBe('25');
     });
 
     test('Pagination has 3 button', () => {

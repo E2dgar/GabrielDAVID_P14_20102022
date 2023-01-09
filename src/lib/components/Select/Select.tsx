@@ -1,5 +1,5 @@
 import './index.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface SelectOption {
     value: number;
@@ -28,28 +28,21 @@ export const Select = ({
 }: SelectType) => {
     const [selected, setSelected] = useState(options?.[0].value);
 
+    //console.log('select');
     const handleChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        let firstRowIndex = 0;
-        let newPageIndex = 0;
-        const entriesNumber = parseInt(e.currentTarget.value);
-        const numberOfPages = resultsLength / entriesNumber;
+        /* Save firstRow index */
+        const firstRowIndex = currentPageIndex * selected;
 
-        /**Get the index of firstrow to set new page index that display this entry */
-        if (selected) {
-            firstRowIndex = currentPageIndex * selected + 1;
-        }
+        const newEntriesPerPage = parseInt(e.currentTarget.value);
 
-        for (let i = 1; i < numberOfPages; i++) {
-            if (firstRowIndex > i * entriesNumber) {
-                newPageIndex = i - 1;
-            }
-        }
+        /* New index must diplay the old first row*/
+        const newIndex = Math.floor(firstRowIndex / newEntriesPerPage);
 
-        setSelected(parseInt(e.currentTarget.value));
+        setSelected(newEntriesPerPage);
 
-        setPageIndex(newPageIndex);
+        setPageIndex(newIndex);
 
-        setEntriesPerPage(parseInt(e.currentTarget.value));
+        setEntriesPerPage(newEntriesPerPage);
     };
 
     return (
@@ -59,15 +52,17 @@ export const Select = ({
                 data-testid="select"
                 className="entries-select"
                 value={selected}
-                onChange={handleChange}>
-                {options?.map((option) => (
-                    <option
-                        data-testid="select-option"
-                        key={`option-${option.value}`}
-                        id={`option-${option.value}`}>
-                        {option.text}
-                    </option>
-                ))}
+                onChange={(e) => handleChange(e)}>
+                {options?.map((option) =>
+                    option.value < resultsLength ? (
+                        <option
+                            data-testid="select-option"
+                            key={`option-${option.value}`}
+                            id={`option-${option.value}`}>
+                            {option.text}
+                        </option>
+                    ) : null
+                )}
             </select>
             entries
         </label>

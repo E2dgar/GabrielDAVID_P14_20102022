@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Header } from '../Header';
 import { Search } from '../Search';
 import './index.css';
@@ -85,12 +85,8 @@ export const Datatable = ({
                 </thead>
 
                 <tbody>
-                    {resultsToDisplay.map((employee: any[]) => (
-                        <Row
-                            key={JSON.stringify(employee)}
-                            data={employee}
-                            headers={headers}
-                        />
+                    {resultsToDisplay.map((employee: any[], index: number) => (
+                        <Row key={index} data={employee} headers={headers} />
                     ))}
                 </tbody>
             </table>
