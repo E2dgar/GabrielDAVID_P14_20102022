@@ -39,28 +39,17 @@ export const Header = ({ headers, setSortBy }: HeadersType) => {
 
     return (
         <>
-            {headers.map((header: any, i: number) =>
-                header.key === 'firstName' ? (
-                    <th
-                        key={`header-${i}`}
-                        ref={(elt) => (refs.current[i] = elt)}
-                        data-column={header.key}
-                        onClick={() => handleClick(i)}
-                        data-testid="header"
-                        data-sort={'ASC'}>
-                        {header.label}
-                    </th>
-                ) : (
-                    <th
-                        key={`header-${i}`}
-                        ref={(elt) => (refs.current[i] = elt)}
-                        data-column={header.key}
-                        onClick={() => handleClick(i)}
-                        data-testid="header">
-                        {header.label}
-                    </th>
-                )
-            )}
+            {headers.map((header: any, i: number) => (
+                <th
+                    key={`header-${i}`}
+                    ref={(elt) => (refs.current[i] = elt)}
+                    data-column={header.key}
+                    onClick={() => handleClick(i)}
+                    data-testid="header"
+                    data-sort={header.key === 'firstName' ? 'ASC' : null}>
+                    {header.label}
+                </th>
+            ))}
         </>
     );
 };

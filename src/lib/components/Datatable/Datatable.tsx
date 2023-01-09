@@ -25,19 +25,19 @@ export const Datatable = ({
     paginate,
     scrollH
 }: DatatableTypes) => {
+    const [sortBy, setSortBy] = useState<any>({
+        header: 'firstName',
+        order: 'ASC'
+    });
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>(employees);
     const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
-    const [sortBy, setSortBy] = useState<any>({
-        header: 'firstName',
-        order: 'ASC'
-    });
 
     useEffect(() => {
         setPageIndex(0);
-        console.log(results);
+
         setResults(
             sortBy.header
                 ? sort(searchingData(searchedTerms, employees), sortBy)
@@ -61,7 +61,6 @@ export const Datatable = ({
         e: React.FormEvent<HTMLInputElement>
     ) => {
         setSearchedTerms(e.currentTarget.value);
-        console.log(searchedTerms);
     };
 
     const paginationNavigate = (e: React.MouseEvent) => {
