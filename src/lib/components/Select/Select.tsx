@@ -53,15 +53,17 @@ export const Select = ({
                 className="entries-select"
                 value={selected}
                 onChange={(e) => handleChange(e)}>
-                {options?.map((option) =>
-                    option.value < resultsLength ? (
+                {options?.map(
+                    (option) => (
+                        // option.value < resultsLength ? (
                         <option
                             data-testid="select-option"
                             key={`option-${option.value}`}
                             id={`option-${option.value}`}>
                             {option.text}
                         </option>
-                    ) : null
+                    )
+                    // ) : null
                 )}
             </select>
             entries
