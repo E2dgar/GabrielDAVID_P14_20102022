@@ -43,7 +43,9 @@ export const Datatable = ({
     }, [searchedTerms]);
 
     useEffect(() => {
-        setResultsToDisplay(dataFiltered(results, pageIndex, entriesPerPage));
+        setResultsToDisplay(
+            dataFiltered(results, pageIndex, entriesPerPage, !!paginate)
+        );
     }, [results, pageIndex, entriesPerPage]);
 
     useEffect(() => {
