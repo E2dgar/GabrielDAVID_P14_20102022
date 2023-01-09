@@ -33,8 +33,12 @@ export const Datatable = ({
     const [sortBy, setSortBy] = useState<any>({});
 
     useEffect(() => {
+        setPageIndex(0);
+        console.log(results);
         setResults(
-            searchingData(searchedTerms, sortBy.header ? results : employees)
+            sortBy.header
+                ? sort(searchingData(searchedTerms, employees), sortBy)
+                : searchingData(searchedTerms, employees)
         );
     }, [searchedTerms]);
 
@@ -52,6 +56,7 @@ export const Datatable = ({
         e: React.FormEvent<HTMLInputElement>
     ) => {
         setSearchedTerms(e.currentTarget.value);
+        console.log(searchedTerms);
     };
 
     const paginationNavigate = (e: React.MouseEvent) => {

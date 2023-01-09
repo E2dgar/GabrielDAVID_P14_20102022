@@ -3,6 +3,7 @@ export const searchingData = (term: string, data: any[]) => {
     let results = data;
 
     if (term.split('').shift() === '' || term === '') {
+        console.log('we rae here');
         return data;
     }
 
