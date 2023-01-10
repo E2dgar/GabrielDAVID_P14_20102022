@@ -30,20 +30,19 @@ export const Datatable = ({
         order: 'ASC'
     });
     const [pageIndex, setPageIndex] = useState<number>(0);
-    const [searchedTerms, setSearchedTerms] = useState<string>('');
+    // const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>(employees);
     // const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
 
-    useEffect(() => {
-        setPageIndex(0);
+    // useEffect(() => {
+    //     setResults(dataFiltered(employees, entriesPerPage, !!paginate));
+    // }, []);
 
-        setResults(
-            sortBy.header
-                ? sort(searchingData(searchedTerms, employees), sortBy)
-                : searchingData(searchedTerms, employees)
-        );
-    }, [searchedTerms]);
+    // useEffect(() => {
+    //     // setPageIndex(0);
+    //     // setResults(sort(searchingData(searchedTerms, employees), sortBy));
+    // }, [searchedTerms]);
 
     // useEffect(() => {
     //     setResultsToDisplay(
@@ -53,14 +52,23 @@ export const Datatable = ({
 
     useEffect(() => {
         if (sortBy.header) {
-            setResults(sort(results, sortBy));
+            setResults(sort(results.flat(), sortBy));
+            setPageIndex(0);
         }
     }, [sortBy]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
     ) => {
-        setSearchedTerms(e.currentTarget.value.toLowerCase());
+        // setSearchedTerms(e.currentTarget.value.toLowerCase());
+        setPageIndex(0);
+        // setResults(sort(searchingData(searchedTerms, employees), sortBy));
+        setResults(
+            sort(
+                searchingData(e.currentTarget.value.toLowerCase(), employees),
+                sortBy
+            )
+        );
     };
 
     const paginationNavigate = (e: React.MouseEvent) => {
@@ -109,12 +117,26 @@ export const Datatable = ({
                             />
                         </tr>
                     ))} */}
-                    {dataFiltered(
+                    {/* {dataFiltered(
                         results,
                         pageIndex,
                         entriesPerPage,
                         !!paginate
                     ).map((employee: any[], index: number) => (
+                        <tr data-testid="row" key={`tr-${index}`}>
+                            <Row
+                                key={index}
+                                data={employee}
+                                headers={headers}
+                            />
+                        </tr>
+                    ))} */}
+                    {dataFiltered(
+                        results,
+                        // pageIndex,
+                        entriesPerPage,
+                        !!paginate
+                    )[pageIndex].map((employee: any[], index: number) => (
                         <tr data-testid="row" key={`tr-${index}`}>
                             <Row
                                 key={index}
