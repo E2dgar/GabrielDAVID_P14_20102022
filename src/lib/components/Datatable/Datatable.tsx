@@ -33,7 +33,7 @@ export const Datatable = ({
     const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>(employees);
-    const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
+    // const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
 
     useEffect(() => {
         setPageIndex(0);
@@ -45,11 +45,11 @@ export const Datatable = ({
         );
     }, [searchedTerms]);
 
-    useEffect(() => {
-        setResultsToDisplay(
-            dataFiltered(results, pageIndex, entriesPerPage, !!paginate)
-        );
-    }, [results, pageIndex, entriesPerPage]);
+    // useEffect(() => {
+    //     setResultsToDisplay(
+    //         dataFiltered(results, pageIndex, entriesPerPage, !!paginate)
+    //     );
+    // }, [results, pageIndex, entriesPerPage]);
 
     useEffect(() => {
         if (sortBy.header) {
@@ -100,8 +100,22 @@ export const Datatable = ({
                 </thead>
 
                 <tbody>
-                    {resultsToDisplay.map((employee: any[], index: number) => (
-                        <tr data-testid="row">
+                    {/* {resultsToDisplay.map((employee: any[], index: number) => (
+                        <tr data-testid="row" key={`tr-${index}`}>
+                            <Row
+                                key={index}
+                                data={employee}
+                                headers={headers}
+                            />
+                        </tr>
+                    ))} */}
+                    {dataFiltered(
+                        results,
+                        pageIndex,
+                        entriesPerPage,
+                        !!paginate
+                    ).map((employee: any[], index: number) => (
+                        <tr data-testid="row" key={`tr-${index}`}>
                             <Row
                                 key={index}
                                 data={employee}
