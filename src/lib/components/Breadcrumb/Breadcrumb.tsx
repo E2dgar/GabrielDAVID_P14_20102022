@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 type BreadcrumbT = {
     resultsLength: number;
     currentIndex: number;

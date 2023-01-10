@@ -17,9 +17,7 @@ export const searchingData = (term: string, data: any[]) => {
 
     for (const elt of searchedTerms) {
         results = results.filter((employee) =>
-            objectToStringLowerCase(Object.values(employee)).includes(
-                elt.toLowerCase()
-            )
+            objectToStringLowerCase(Object.values(employee)).includes(elt)
         );
     }
 

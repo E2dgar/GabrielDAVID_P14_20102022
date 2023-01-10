@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Header';
 import { Search } from '../Search';
 import './index.css';
@@ -60,23 +60,7 @@ export const Datatable = ({
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
     ) => {
-        setSearchedTerms(e.currentTarget.value);
-    };
-
-    const handleSelect = (e: React.FormEvent<HTMLSelectElement>) => {
-        /* Save firstRow index */
-        const firstRowIndex = pageIndex * entriesPerPage;
-
-        const newEntriesPerPage = parseInt(e.currentTarget.value);
-
-        /* New index must diplay the old first row*/
-        const newIndex = Math.floor(firstRowIndex / newEntriesPerPage);
-
-        // setSelected(newEntriesPerPage);
-
-        setPageIndex(newIndex);
-
-        setEntriesPerPage(newEntriesPerPage);
+        setSearchedTerms(e.currentTarget.value.toLowerCase());
     };
 
     const paginationNavigate = (e: React.MouseEvent) => {
@@ -94,11 +78,12 @@ export const Datatable = ({
                     <label>
                         Show
                         <Select
-                            // setEntriesPerPage={setEntriesPerPage}
-                            // setPageIndex={setPageIndex}
-                            // currentPageIndex={pageIndex}
+                            entriesPerPage={entriesPerPage}
+                            setEntriesPerPage={setEntriesPerPage}
+                            setPageIndex={setPageIndex}
+                            currentPageIndex={pageIndex}
                             // resultsLength={results.length}
-                            onChange={handleSelect}
+                            // onChange={handleSelect}
                         />
                         entries
                     </label>
@@ -116,7 +101,13 @@ export const Datatable = ({
 
                 <tbody>
                     {resultsToDisplay.map((employee: any[], index: number) => (
-                        <Row key={index} data={employee} headers={headers} />
+                        <tr data-testid="row">
+                            <Row
+                                key={index}
+                                data={employee}
+                                headers={headers}
+                            />
+                        </tr>
                     ))}
                 </tbody>
             </table>
