@@ -36,7 +36,11 @@ export const Datatable = ({
     // const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
 
     // useEffect(() => {
-    //     setResults(dataFiltered(employees, entriesPerPage, !!paginate));
+    //     setResults(dataFiltered(employees, 10, !!paginate));
+    //     console.log(
+    //         dataFiltered(employees, entriesPerPage, !!paginate)[pageIndex]
+    //     );
+    //     console.log('[', results);
     // }, []);
 
     // useEffect(() => {
@@ -44,18 +48,12 @@ export const Datatable = ({
     //     // setResults(sort(searchingData(searchedTerms, employees), sortBy));
     // }, [searchedTerms]);
 
-    // useEffect(() => {
-    //     setResultsToDisplay(
-    //         dataFiltered(results, pageIndex, entriesPerPage, !!paginate)
-    //     );
-    // }, [results, pageIndex, entriesPerPage]);
-
     useEffect(() => {
+        setResults(sort(results, sortBy));
         if (sortBy.header) {
-            setResults(sort(results.flat(), sortBy));
             setPageIndex(0);
         }
-    }, [sortBy]);
+    }, [sortBy, entriesPerPage]);
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
@@ -131,12 +129,10 @@ export const Datatable = ({
                             />
                         </tr>
                     ))} */}
-                    {dataFiltered(
-                        results,
-                        // pageIndex,
-                        entriesPerPage,
-                        !!paginate
-                    )[pageIndex].map((employee: any[], index: number) => (
+
+                    {dataFiltered(results, entriesPerPage, !!paginate)[
+                        pageIndex
+                    ].map((employee: any[], index: number) => (
                         <tr data-testid="row" key={`tr-${index}`}>
                             <Row
                                 key={index}
