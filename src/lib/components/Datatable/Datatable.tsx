@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Header } from '../Header';
+import { useState } from 'react';
 import { Search } from '../Search';
 import './index.css';
 import { Select } from '../Select';
 import { searchingData } from '../func/search';
-import { sort } from '../func/sort';
 import { Pagination } from '../Pagination';
 import { Breadcrumb } from '../Breadcrumb';
-import { dataFiltered } from '../func/dataFiltered';
 import { Row } from '../Row';
+import { camelCaseToString } from '../func/camelCaseToString';
 
 export type DatatableTypes = {
-    headers: any[];
     employees: any[];
     paginate?: boolean;
     scrollH?: number;
@@ -19,59 +16,52 @@ export type DatatableTypes = {
 
 export type DataTableList = any[];
 
-export const Datatable = ({
-    headers,
-    employees,
-    paginate,
-    scrollH
-}: DatatableTypes) => {
-    const [sortBy, setSortBy] = useState<any>({
-        header: 'firstName',
-        order: 'ASC'
-    });
+export const Datatable = ({ employees, paginate, scrollH }: DatatableTypes) => {
+    const headers = Object.keys(employees[0]);
+    const [sortedBy, setSortedBy] = useState({ column: headers[0], asc: true });
     const [pageIndex, setPageIndex] = useState<number>(0);
-    // const [searchedTerms, setSearchedTerms] = useState<string>('');
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>(employees);
-    // const [resultsToDisplay, setResultsToDisplay] = useState<DataTableList>([]);
 
-    // useEffect(() => {
-    //     setResults(dataFiltered(employees, 10, !!paginate));
-    //     console.log(
-    //         dataFiltered(employees, entriesPerPage, !!paginate)[pageIndex]
-    //     );
-    //     console.log('[', results);
-    // }, []);
+    const handleSelect = (e: React.FormEvent<HTMLSelectElement>) => {
+        const newEntriesPerPage = parseInt(e.currentTarget.value);
+        /* Save firstRow index */
+        const firstRowIndex = pageIndex * entriesPerPage;
 
-    // useEffect(() => {
-    //     // setPageIndex(0);
-    //     // setResults(sort(searchingData(searchedTerms, employees), sortBy));
-    // }, [searchedTerms]);
+        // /* New index must diplay the old first row*/
+        const newIndex = Math.floor(firstRowIndex / newEntriesPerPage);
 
-    useEffect(() => {
-        setResults(sort(results, sortBy));
-        if (sortBy.header) {
-            setPageIndex(0);
-        }
-    }, [sortBy, entriesPerPage]);
+        setPageIndex(newIndex);
+        setEntriesPerPage(newEntriesPerPage);
+    };
+
+    const sort = (data: any[], sortedBy: any) => {
+        const { column, asc } = sortedBy;
+        return asc
+            ? data.sort((a, b) => a[column].localeCompare(b[column]))
+            : data.sort((a, b) => b[column].localeCompare(a[column]));
+    };
+
+    const handleSort = (column: string) => {
+        setPageIndex(0);
+        setSortedBy((prev) => ({
+            column: column,
+            asc: prev.column === column && prev.asc ? false : true
+        }));
+    };
 
     const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
         e: React.FormEvent<HTMLInputElement>
     ) => {
-        // setSearchedTerms(e.currentTarget.value.toLowerCase());
         setPageIndex(0);
-        // setResults(sort(searchingData(searchedTerms, employees), sortBy));
+
         setResults(
-            sort(
-                searchingData(e.currentTarget.value.toLowerCase(), employees),
-                sortBy
-            )
+            searchingData(e.currentTarget.value.toLowerCase(), employees)
         );
     };
 
     const paginationNavigate = (e: React.MouseEvent) => {
         const indexAttribute = e.currentTarget.getAttribute('data-index');
-
         if (indexAttribute) {
             setPageIndex(parseInt(indexAttribute));
         }
@@ -84,12 +74,9 @@ export const Datatable = ({
                     <label>
                         Show
                         <Select
-                            entriesPerPage={entriesPerPage}
-                            setEntriesPerPage={setEntriesPerPage}
-                            setPageIndex={setPageIndex}
-                            currentPageIndex={pageIndex}
-                            // resultsLength={results.length}
-                            // onChange={handleSelect}
+                            onChange={(e: React.FormEvent<HTMLSelectElement>) =>
+                                handleSelect(e)
+                            }
                         />
                         entries
                     </label>
@@ -101,46 +88,33 @@ export const Datatable = ({
             <table data-testid="datatable" className="datatable">
                 <thead data-testid="datatable-headers">
                     <tr>
-                        <Header headers={headers} setSortBy={setSortBy} />
+                        {headers.map((column, index) => (
+                            <th
+                                key={`header-${index}`}
+                                data-column={column}
+                                onClick={() => handleSort(column)}
+                                data-testid="header">
+                                {camelCaseToString(column)}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
 
                 <tbody>
-                    {/* {resultsToDisplay.map((employee: any[], index: number) => (
-                        <tr data-testid="row" key={`tr-${index}`}>
-                            <Row
-                                key={index}
-                                data={employee}
-                                headers={headers}
-                            />
-                        </tr>
-                    ))} */}
-                    {/* {dataFiltered(
-                        results,
-                        pageIndex,
-                        entriesPerPage,
-                        !!paginate
-                    ).map((employee: any[], index: number) => (
-                        <tr data-testid="row" key={`tr-${index}`}>
-                            <Row
-                                key={index}
-                                data={employee}
-                                headers={headers}
-                            />
-                        </tr>
-                    ))} */}
-
-                    {dataFiltered(results, entriesPerPage, !!paginate)[
-                        pageIndex
-                    ].map((employee: any[], index: number) => (
-                        <tr data-testid="row" key={`tr-${index}`}>
-                            <Row
-                                key={index}
-                                data={employee}
-                                headers={headers}
-                            />
-                        </tr>
-                    ))}
+                    {sort(results, sortedBy)
+                        .slice(
+                            pageIndex * entriesPerPage,
+                            pageIndex * entriesPerPage + entriesPerPage
+                        )
+                        .map((employee: any, index: number) => (
+                            <tr data-testid="row" key={`tr-${index}`}>
+                                <Row
+                                    key={index}
+                                    row={employee}
+                                    headers={headers}
+                                />
+                            </tr>
+                        ))}
                 </tbody>
             </table>
 

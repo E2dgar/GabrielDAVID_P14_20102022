@@ -1,25 +1,10 @@
 export const searchingData = (term: string, data: any[]) => {
-    const searchedTerms = term.split(' ');
-    let results = [...data];
+    const columns = Object.keys(data[0]);
 
-    if (term.split('').shift() === '') {
-        return data;
-    }
-
-    /**
-     * Convert values in object into string
-     * @param object
-     * @returns
-     */
-    const objectToStringLowerCase = (object: Object) => {
-        return JSON.stringify(object).toLowerCase();
-    };
-
-    for (const elt of searchedTerms) {
-        results = results.filter((employee) =>
-            objectToStringLowerCase(Object.values(employee)).includes(elt)
-        );
-    }
-
-    return results;
+    return data.filter((row) =>
+        columns.some(
+            (column) =>
+                row[column].toLowerCase().indexOf(term.toLowerCase()) > -1
+        )
+    );
 };

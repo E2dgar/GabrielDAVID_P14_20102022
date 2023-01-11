@@ -49,13 +49,7 @@ const employees = {
 };
 
 describe('Select', () => {
-    render(
-        <Datatable
-            headers={headers}
-            employees={employees.data}
-            paginate={true}
-        />
-    );
+    render(<Datatable employees={employees.data} paginate={true} />);
 
     const select: HTMLSelectElement = screen.getByTestId('select');
     const buttons = screen.getAllByTestId('pagination-button');

@@ -1,18 +1,16 @@
-import { useEffect } from 'react';
-
-type DataT = { [key: string]: any };
+// type DataT = { [key: string]: any };
 
 type RowT = {
-    data: any;
-    headers: DataT[];
+    row: any;
+    headers: any[];
 };
 
-export const Row = ({ data, headers }: RowT) => {
+export const Row = ({ row, headers }: RowT) => {
     return (
         <>
             {headers.map((header: any, i: number) => (
-                <td key={`row-key-${i}`} data-testid={`row-${i}-td`}>
-                    {data[header.key]}
+                <td key={`cell-${i}`} data-testid={`row-${i}-td`}>
+                    {row[header]}
                 </td>
             ))}
         </>

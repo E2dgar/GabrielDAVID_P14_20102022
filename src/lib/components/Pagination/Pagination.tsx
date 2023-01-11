@@ -1,6 +1,5 @@
 import { Button } from '../Button';
 import './index.css';
-import { useEffect } from 'react';
 
 export type PaginationT = {
     results: any[][];

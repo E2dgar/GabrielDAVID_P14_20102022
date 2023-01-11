@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 export const Search = ({ onChange }: any) => {
     return (
         <label>

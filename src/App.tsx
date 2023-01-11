@@ -29,7 +29,6 @@ const App = () => {
     return (
         <div className="App">
             <Datatable
-                headers={headers}
                 employees={employees.data}
                 paginate
                 // scrollH={300}
