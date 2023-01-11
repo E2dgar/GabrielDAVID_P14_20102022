@@ -36,10 +36,11 @@ export const Datatable = ({ employees, paginate, scrollH }: DatatableTypes) => {
     };
 
     const sort = (data: any[], sortedBy: any) => {
+        const sortedData = [...data];
         const { column, asc } = sortedBy;
         return asc
-            ? data.sort((a, b) => a[column].localeCompare(b[column]))
-            : data.sort((a, b) => b[column].localeCompare(a[column]));
+            ? sortedData.sort((a, b) => a[column].localeCompare(b[column]))
+            : sortedData.sort((a, b) => b[column].localeCompare(a[column]));
     };
 
     const handleSort = (column: string) => {
