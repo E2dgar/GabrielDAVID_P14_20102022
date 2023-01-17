@@ -54,9 +54,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
         }));
     };
 
-    const handleSearch: React.ComponentProps<typeof Search>['onChange'] = (
-        e: React.FormEvent<HTMLInputElement>
-    ) => {
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPageIndex(0);
 
         setResults(
@@ -64,7 +62,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
         );
     };
 
-    const paginationNavigate = (e: React.MouseEvent) => {
+    const paginationNavigate = (e: React.MouseEvent<HTMLButtonElement>) => {
         const indexAttribute = e.currentTarget.getAttribute('data-index');
         if (indexAttribute) {
             setPageIndex(parseInt(indexAttribute));
@@ -77,11 +75,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
                 {!scrollH && (
                     <label>
                         Show
-                        <Select
-                            onChange={(e: React.FormEvent<HTMLSelectElement>) =>
-                                handleSelect(e)
-                            }
-                        />
+                        <Select onChange={handleSelect} />
                         entries
                     </label>
                 )}

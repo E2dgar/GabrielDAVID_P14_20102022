@@ -47,7 +47,7 @@ const employees = {
 
 describe('Datatable', () => {
     test('Component is rendered correctly', async () => {
-        render(<Datatable employees={employees.data} paginate={true} />);
+        render(<Datatable employees={employees.data} />);
 
         const datatableElement = screen.getByTestId('datatable');
         const select = screen.getByTestId('select');

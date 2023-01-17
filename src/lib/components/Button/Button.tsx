@@ -2,7 +2,7 @@ import './index.css';
 
 type ButtonT = {
     index: number;
-    navigate: any;
+    navigate: React.MouseEventHandler<HTMLButtonElement>;
     className: string;
 };
 

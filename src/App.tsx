@@ -16,7 +16,7 @@ const App = () => {
 
     return (
         <div className="App">
-            <Datatable employees={employees.data} scrollH={300} />
+            <Datatable employees={employees.data} />
         </div>
     );
 };

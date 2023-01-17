@@ -2,7 +2,7 @@ import { Button } from '../Button';
 import './index.css';
 
 export type PaginationT = {
-    results: any[][];
+    results: any[];
     navigate: any;
     currentIndex: number;
     entriesPerPage: number;
