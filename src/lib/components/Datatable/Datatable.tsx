@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Search } from '../Search';
 import './index.css';
+import { Search } from '../Search';
 import { Select } from '../Select';
-import { searchingData } from '../func/search';
 import { Pagination } from '../Pagination';
-import { Breadcrumb } from '../Breadcrumb';
+import { Location } from '../Location';
 import { Row } from '../Row';
-import { camelCaseToString } from '../func/camelCaseToString';
+import { Header } from '../Headers';
+import { searchingData } from '../helpers/search';
+import { camelCaseToString } from '../helpers/camelCaseToString';
 
 export type DatatableTypes = {
     employees: any[];
@@ -14,6 +15,13 @@ export type DatatableTypes = {
 };
 
 export type DataTableList = any[];
+
+export type HeadersT = {
+    index: number;
+    column: string;
+    handleSort: any;
+    label: string;
+};
 
 export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
     const headers = Object.keys(employees[0] || {});
@@ -24,6 +32,10 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
 
     useEffect(() => {
         if (scrollH) setEntriesPerPage(employees.length);
+
+        // NOTE: Run effect once on component mount, please
+        // recheck dependencies if effect is updated.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSelect = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -54,7 +66,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
         }));
     };
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPageIndex(0);
 
         setResults(
@@ -75,7 +87,11 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
                 {!scrollH && (
                     <label>
                         Show
-                        <Select onChange={handleSelect} />
+                        <Select
+                            onChange={(e: React.FormEvent<HTMLSelectElement>) =>
+                                handleSelect(e)
+                            }
+                        />
                         entries
                     </label>
                 )}
@@ -92,13 +108,12 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
                     <thead data-testid="datatable-headers">
                         <tr>
                             {headers.map((column, index) => (
-                                <th
-                                    key={`header-${index}`}
-                                    data-column={column}
-                                    onClick={() => handleSort(column)}
-                                    data-testid="header">
-                                    {camelCaseToString(column)}
-                                </th>
+                                <Header
+                                    index={index}
+                                    column={column}
+                                    handleSort={() => handleSort(column)}
+                                    label={camelCaseToString(column)}
+                                />
                             ))}
                         </tr>
                     </thead>
@@ -123,7 +138,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
             </div>
 
             <div className="entries-pagination-container">
-                <Breadcrumb
+                <Location
                     resultsLength={results.length}
                     employeesLength={employees.length}
                     currentIndex={pageIndex}

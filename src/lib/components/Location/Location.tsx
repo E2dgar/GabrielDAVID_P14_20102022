@@ -1,16 +1,16 @@
-type BreadcrumbT = {
+type LocationT = {
     resultsLength: number;
     currentIndex: number;
     entriesPerPage: number;
     employeesLength: number;
 };
 
-export const Breadcrumb = ({
+export const Location = ({
     resultsLength,
     currentIndex,
     entriesPerPage,
     employeesLength
-}: BreadcrumbT) => {
+}: LocationT) => {
     const to =
         entriesPerPage * (currentIndex + 1) > resultsLength
             ? resultsLength
