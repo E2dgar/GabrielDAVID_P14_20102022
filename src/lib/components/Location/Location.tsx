@@ -18,7 +18,11 @@ export const Location = ({
     const from = to - entriesPerPage < 0 ? 1 : to - entriesPerPage + 1;
 
     return (
-        <p data-testid="location">
+        <p
+            id="employye-table_info"
+            data-testid="location"
+            role="status"
+            aria-live="polite">
             Showing {from} to {to} of {resultsLength} entries{' '}
             {employeesLength !== resultsLength &&
                 `(filtered from ${employeesLength} total entries)`}

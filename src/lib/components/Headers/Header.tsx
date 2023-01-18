@@ -1,12 +1,21 @@
 import { HeadersT } from '../Datatable';
+import { camelCaseToString } from '../helpers/camelCaseToString';
 
-export const Header = ({ index, column, handleSort, label }: HeadersT) => {
+export const Header = ({ column, handleSort, label, ariaSort }: HeadersT) => {
+    const order =
+        ariaSort === 'descending' || !ariaSort ? 'ascending' : 'descending';
     return (
         <th
-            key={`header-${index}`}
+            className={ariaSort ? `active-sort-${order}` : ''}
             data-column={column}
             onClick={handleSort}
-            data-testid="header">
+            data-testid="header"
+            tabIndex={0}
+            aria-controls="employee-table"
+            aria-label={`${camelCaseToString(
+                column
+            )} : activate to sort ${order}`}
+            aria-sort={ariaSort}>
             {label}
         </th>
     );

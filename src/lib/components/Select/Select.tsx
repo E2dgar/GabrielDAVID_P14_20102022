@@ -12,6 +12,8 @@ export type SelectType = {
 export const Select = ({ onChange }: SelectType) => {
     return (
         <select
+            id="employee-table_length"
+            aria-controls="employee-table"
             data-testid="select"
             className="entries-select"
             onChange={onChange}>

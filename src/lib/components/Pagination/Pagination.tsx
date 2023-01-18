@@ -26,12 +26,15 @@ export const Pagination = ({
         );
     };
     return (
-        <div data-testid="pagination">
+        <div id="employee-table_paginate" data-testid="pagination">
             <button
+                id="employye-table_previous"
                 className="next-prev"
                 disabled={currentIndex === 0}
                 data-index={currentIndex - 1}
-                onClick={navigate}>
+                onClick={navigate}
+                tabIndex={-1}
+                aria-controls="employee-table">
                 Previous
             </button>
 
@@ -51,10 +54,13 @@ export const Pagination = ({
             )}
 
             <button
+                id="employee-table_next"
                 onClick={navigate}
                 className="next-prev"
                 disabled={currentIndex === results.length - 1}
-                data-index={currentIndex + 1}>
+                data-index={currentIndex + 1}
+                tabIndex={0}
+                aria-controls="employee-table">
                 Next
             </button>
         </div>

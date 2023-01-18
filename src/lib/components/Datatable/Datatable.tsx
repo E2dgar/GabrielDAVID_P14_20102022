@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './index.css';
 import { Search } from '../Search';
 import { Select } from '../Select';
@@ -21,17 +21,23 @@ export type HeadersT = {
     column: string;
     handleSort: any;
     label: string;
+    ariaSort: 'none' | 'ascending' | 'descending' | 'other' | undefined;
 };
 
 export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
     const headers = Object.keys(employees[0] || {});
-    const [sortedBy, setSortedBy] = useState({ column: headers[0], asc: true });
+    const [sortedBy, setSortedBy] = useState({
+        column: headers[0],
+        asc: false
+    });
     const [pageIndex, setPageIndex] = useState<number>(0);
     const [entriesPerPage, setEntriesPerPage] = useState<number>(10);
     const [results, setResults] = useState<DataTableList>(employees);
 
     useEffect(() => {
         if (scrollH) setEntriesPerPage(employees.length);
+
+        handleSort(headers[0]);
 
         // NOTE: Run effect once on component mount, please
         // recheck dependencies if effect is updated.
@@ -104,15 +110,29 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
                     height: `${scrollH}px` || 'undefined',
                     overflowY: scrollH ? 'scroll' : 'initial'
                 }}>
-                <table data-testid="datatable" className="datatable">
+                <table
+                    id="employee-table"
+                    data-testid="datatable"
+                    className="datatable"
+                    role="grid"
+                    aria-describedby="employee-table_info">
                     <thead data-testid="datatable-headers">
                         <tr>
                             {headers.map((column, index) => (
                                 <Header
+                                    key={column}
                                     index={index}
                                     column={column}
                                     handleSort={() => handleSort(column)}
                                     label={camelCaseToString(column)}
+                                    ariaSort={
+                                        sortedBy.column === column &&
+                                        sortedBy.asc
+                                            ? 'ascending'
+                                            : sortedBy.column === column
+                                            ? 'descending'
+                                            : undefined
+                                    }
                                 />
                             ))}
                         </tr>
@@ -130,6 +150,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
                                         key={index}
                                         row={employee}
                                         headers={headers}
+                                        sort={sortedBy.column}
                                     />
                                 </tr>
                             ))}

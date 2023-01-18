@@ -12,7 +12,9 @@ export const Button = ({ index, navigate, className }: ButtonT) => {
             className={className}
             onClick={navigate}
             data-index={index}
-            data-testid="pagination-button">
+            data-testid="pagination-button"
+            tabIndex={0}
+            aria-controls="employee-table">
             {index + 1}
         </button>
     );

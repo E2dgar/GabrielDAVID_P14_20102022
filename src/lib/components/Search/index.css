@@ -1,3 +1,7 @@
 .search-label {
     margin-left: auto;
 }
+
+.search-label input {
+    padding-left: 8px;
+}

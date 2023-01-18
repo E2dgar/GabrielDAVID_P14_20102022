@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { Datatable } from './Datatable';
 import React from 'react';
 
-const headers = [{ firstName: 'First name' }, { lastName: 'Last name' }];
-
 const employees = {
     data: [
         { firstName: 'John', lastName: 'Doe' },
