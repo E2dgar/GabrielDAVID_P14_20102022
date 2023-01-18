@@ -1,5 +1,10 @@
 import './index.css';
 
+/**
+ * Search component.
+ *
+ * @returns {JSX.Element}
+ */
 export const Search = ({ onChange }: any) => {
     return (
         <label className="search-label">

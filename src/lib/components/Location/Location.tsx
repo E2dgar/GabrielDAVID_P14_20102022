@@ -1,10 +1,15 @@
-type LocationT = {
+export type LocationT = {
     resultsLength: number;
     currentIndex: number;
     entriesPerPage: number;
     employeesLength: number;
 };
 
+/**
+ * Component for location in table
+ *
+ * @returns {JSX.Element}
+ */
 export const Location = ({
     resultsLength,
     currentIndex,

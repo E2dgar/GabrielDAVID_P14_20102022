@@ -64,7 +64,7 @@ th::after {
     content: '\25b2';
     position: absolute;
     right: 0;
-    top: 12px;
+    top: 10px;
     font-size: 14px;
     color: grey;
 }
@@ -72,7 +72,7 @@ th::after {
 th::after {
     content: '\25bc';
     top: unset;
-    bottom: 12px;
+    bottom: 10px;
 }
 
 .active-sort-ascending::after,

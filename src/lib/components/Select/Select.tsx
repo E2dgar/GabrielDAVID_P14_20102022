@@ -9,6 +9,11 @@ export type SelectType = {
     onChange: any;
 };
 
+/**
+ * Select component for choose entries per page
+ *
+ * @returns {JSX.Element}
+ */
 export const Select = ({ onChange }: SelectType) => {
     return (
         <select

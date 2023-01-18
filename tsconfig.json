@@ -22,5 +22,9 @@
         "./src/lib/components/*/index.css",
         "./src/lib/index.d.ts"
     ],
-    "exclude": ["./node_modules", "./src/lib/*.test.tsx", "dist"]
+    "exclude": ["./node_modules", "./src/lib/*.test.tsx", "dist"],
+    "typedocOptions": {
+        "entryPoints": ["src/lib/index.ts"],
+        "out": "docs"
+    }
 }

@@ -1,6 +1,17 @@
-import { HeadersT } from '../Datatable';
 import { camelCaseToString } from '../helpers/camelCaseToString';
 
+export type HeadersT = {
+    index: number;
+    column: string;
+    handleSort: any;
+    label: string;
+    ariaSort: 'none' | 'ascending' | 'descending' | 'other' | undefined;
+};
+
+/**
+ * Component for table's headers
+ * @returns {JSX.Element}
+ */
 export const Header = ({ column, handleSort, label, ariaSort }: HeadersT) => {
     const order =
         ariaSort === 'descending' || !ariaSort ? 'ascending' : 'descending';

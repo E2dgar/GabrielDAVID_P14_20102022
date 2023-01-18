@@ -1,11 +1,16 @@
 import './index.css';
 
-type ButtonT = {
+export type ButtonT = {
     index: number;
     navigate: React.MouseEventHandler<HTMLButtonElement>;
     className: string;
 };
 
+/**
+ * @component Pagination button component
+ *
+ * @returns {JSX.Element}
+ */
 export const Button = ({ index, navigate, className }: ButtonT) => {
     return (
         <button

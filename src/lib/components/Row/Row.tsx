@@ -1,11 +1,13 @@
-// type DataT = { [key: string]: any };
-
-type RowT = {
+export type RowT = {
     row: any;
     headers: any[];
     sort: string | null;
 };
 
+/**
+ * Component for table's <td>
+ * @returns {JSX.Element}
+ */
 export const Row = ({ row, headers, sort }: RowT) => {
     return (
         <>

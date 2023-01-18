@@ -8,6 +8,11 @@ export type PaginationT = {
     entriesPerPage: number;
 };
 
+/**
+ * Component for pagination
+ *
+ * @returns {JSX.Element}
+ */
 export const Pagination = ({
     results,
     navigate,
@@ -18,6 +23,7 @@ export const Pagination = ({
 
     const mappingArray = results.slice(0, pagesNumber);
 
+    /* Visibles button are only +2 & -2 beside active page */
     const isButtonVisible = (index: number) => {
         return (
             index === 0 ||

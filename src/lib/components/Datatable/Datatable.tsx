@@ -11,20 +11,16 @@ import { camelCaseToString } from '../helpers/camelCaseToString';
 
 export type DatatableTypes = {
     employees: any[];
-    scrollH?: number;
+    scrollY?: number;
 };
 
 export type DataTableList = any[];
 
-export type HeadersT = {
-    index: number;
-    column: string;
-    handleSort: any;
-    label: string;
-    ariaSort: 'none' | 'ascending' | 'descending' | 'other' | undefined;
-};
-
-export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
+/**
+ * Datatable
+ * @returns {JSX.Element}
+ */
+export const Datatable = ({ employees, scrollY }: DatatableTypes) => {
     const headers = Object.keys(employees[0] || {});
     const [sortedBy, setSortedBy] = useState({
         column: headers[0],
@@ -35,7 +31,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
     const [results, setResults] = useState<DataTableList>(employees);
 
     useEffect(() => {
-        if (scrollH) setEntriesPerPage(employees.length);
+        if (scrollY) setEntriesPerPage(employees.length);
 
         handleSort(headers[0]);
 
@@ -56,6 +52,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
         setEntriesPerPage(newEntriesPerPage);
     };
 
+    /*Sort data */
     const sort = (data: any[], sortedBy: any) => {
         const sortedData = [...data];
         const { column, asc } = sortedBy;
@@ -64,6 +61,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
             : sortedData.sort((a, b) => b[column].localeCompare(a[column]));
     };
 
+    /*Set sort state and reset pageIndex*/
     const handleSort = (column: string) => {
         setPageIndex(0);
         setSortedBy((prev) => ({
@@ -72,6 +70,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
         }));
     };
 
+    /*Search in data*/
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPageIndex(0);
 
@@ -90,7 +89,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
     return (
         <div className="datatable-container">
             <div className="select-search-bar">
-                {!scrollH && (
+                {!scrollY && (
                     <label>
                         Show
                         <Select
@@ -107,8 +106,8 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
             <div
                 className="table-container"
                 style={{
-                    height: `${scrollH}px` || 'undefined',
-                    overflowY: scrollH ? 'scroll' : 'initial'
+                    height: `${scrollY}px` || 'undefined',
+                    overflowY: scrollY ? 'scroll' : 'initial'
                 }}>
                 <table
                     id="employee-table"
@@ -166,7 +165,7 @@ export const Datatable = ({ employees, scrollH }: DatatableTypes) => {
                     entriesPerPage={entriesPerPage}
                 />
 
-                {!scrollH && (
+                {!scrollY && (
                     <Pagination
                         results={results}
                         navigate={paginationNavigate}
