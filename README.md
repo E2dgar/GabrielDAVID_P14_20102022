@@ -4,13 +4,13 @@ A datatable with pagination, search and sort.
 
 ## Install
 
-<pre>npm install</pre>
+<pre>npm install react_datatable_op14</pre>
 
 ## Datatable
 
-Import as any component
+Import the component
 
-<pre>import {Datatable} from 'lib'</pre>
+<pre>import {Datatable} from 'react_datatable_op14'</pre>
 
 You have to pass your data to employees prop :
 
@@ -22,4 +22,4 @@ By default pagination is active. You can however display whole table by adding a
 
 ### Docs
 
-See docs <a href="">here</a>
+See docs <a href="https://e2dgar.github.io/GabrielDAVID_P14_20102022/">here</a>
